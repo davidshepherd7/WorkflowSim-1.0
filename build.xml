@@ -7,6 +7,7 @@
 
 <project basedir="." default="build" name="workflowsim">
 
+    <!-- Set variables -->
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
@@ -20,6 +21,7 @@
     </path>
 
 
+    <!-- Create dirs -->
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -36,14 +38,14 @@
         </copy>
     </target>
 
-
+    <!-- Clean up -->
     <target name="clean">
         <delete dir="bin/org"/>
         <delete dir="bin/workload"/>
     </target>
-
     <target depends="clean" name="cleanall"/>
 
+    <!-- Build -->
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
@@ -76,5 +78,19 @@
         <java classname="org.cloudbus.cloudsim.examples.CloudSimExample1" failonerror="true" fork="yes">
             <classpath refid="workflowsim.classpath"/>
         </java>
+    </target>
+
+
+    <!-- Run tests, note that these aren't very useful at the moment
+         because the test cases are not allowed to fail (all exceptions are
+         caught!). -->
+    <target name="test" depends="build" >
+      <java classname="org.workflowsim.examples.WorkflowSimAllExamplesTester"
+            failonerror="true"
+            logError="true"
+            output="test_output"
+            fork="true">
+        <classpath refid="workflowsim.classpath"/>
+       </java>
     </target>
 </project>
