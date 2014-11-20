@@ -17,7 +17,6 @@ package org.workflowsim;
 
 import org.cloudbus.cloudsim.CloudletScheduler;
 import org.cloudbus.cloudsim.Vm;
-import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.workflowsim.utils.ReplicaCatalog;
 import org.workflowsim.utils.ReplicaCatalog.FileSystem;
 
@@ -35,11 +34,6 @@ public class CondorVM extends Vm {
      * The local storage system a vm has if file.system=LOCAL
      */
     private ClusterStorage storage;
-    /*
-     * The state of a vm. It should be either CloudSimTags.VM_STATUS_IDLE
-     * or VM_STATUS_READY (not used in workflowsim) or VM_STATUS_BUSY
-     */
-    private int state;
 
     /**
      * the cost of using memory in this resource
@@ -94,10 +88,7 @@ public class CondorVM extends Vm {
             String vmm,
             CloudletScheduler cloudletScheduler) {
         super(id, userId, mips, numberOfPes, ram, bw, size, vmm, cloudletScheduler);
-        /*
-         * At the beginning all vm status is idle. 
-         */
-        setState(CloudSimTags.VM_STATUS_IDLE);
+
         /*
          * If the file.system is LOCAL, we should add a clusterStorage to vm. 
          */
@@ -190,28 +181,7 @@ public class CondorVM extends Vm {
      */ 
     public double getCostPerMem(){
         return this.costPerMem;
-    }
-    
-    /**
-     * Sets the state of the task
-     *
-     * @param type the type
-     * @return $none
-     */
-    public final void setState(int tag) {
-        this.state = tag;
-    }
-
-    /**
-     * Gets the state of the task
-     *
-     * @return the state of the task
-     * @pre $none
-     * @post $none
-     */
-    public final int getState() {
-        return this.state;
-    }
+    } 
 
     /**
      * Adds a file to the local file system

@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
+import org.cloudbus.cloudsim.core.CloudSimTags;
+
+
 /**
  * Vm represents a VM: it runs inside a Host, sharing hostList with other VMs. It processes
  * cloudlets. This processing happens according to a policy, defined by the CloudletScheduler. Each
@@ -76,6 +80,12 @@ public class Vm {
 	/** The mips allocation history. */
 	private final List<VmStateHistoryEntry> stateHistory = new LinkedList<VmStateHistoryEntry>();
 
+        /**
+         * The state of a vm. It should be either CloudSimTags.VM_STATUS_IDLE
+         * or VM_STATUS_READY (not used in workflowsim) or VM_STATUS_BUSY
+         */
+        private int state;
+
 	/**
 	 * Creates a new VMCharacteristics object.
 	 * 
@@ -126,6 +136,9 @@ public class Vm {
 		setCurrentAllocatedMips(null);
 		setCurrentAllocatedRam(0);
 		setCurrentAllocatedSize(0);
+
+                // At the beginning all vm status is idle. 
+                setState(CloudSimTags.VM_STATUS_IDLE);
 	}
 
 	/**
@@ -568,6 +581,27 @@ public class Vm {
 	public void setBeingInstantiated(boolean beingInstantiated) {
 		this.beingInstantiated = beingInstantiated;
 	}
+
+        /**
+         * Sets the state of the task
+         *
+         * @param type the type
+         * @return $none
+         */
+        public final void setState(int tag) {
+            this.state = tag;
+        }
+
+        /**
+         * Gets the state of the task
+         *
+         * @return the state of the task
+         * @pre $none
+         * @post $none
+         */
+        public final int getState() {
+            return this.state;
+        }
 
 	/**
 	 * Gets the state history.
