@@ -73,8 +73,9 @@ public class WorkflowSimAllExamplesTester {
             FaultTolerantClusteringExample2.main(args);
             FaultTolerantClusteringExample3.main(args);
             FaultTolerantClusteringExample4.main(args);
-            FaultTolerantClusteringExample5.main(args);
-            FaultTolerantClusteringExample6.main(args);
+            // FaultTolerantClusteringExample5.main(args);
+            // FaultTolerantClusteringExample6.main(args);
+            // these two examples require additional dax files!
             
             /**
              * Planning Algorithms
