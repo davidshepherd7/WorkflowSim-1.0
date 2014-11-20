@@ -39,7 +39,6 @@ public class WorkflowSimAllExamplesTester {
      * Test all the workflow examples and check their results
      */ 
     public static void main(String[] args){
-        try{
             /**
              * Basic Examples 
              */
@@ -91,11 +90,7 @@ public class WorkflowSimAllExamplesTester {
             MAXMINSchedulingAlgorithmExample.main(args);
             MCTSchedulingAlgorithmExample.main(args);
             MINMINSchedulingAlgorithmExample.main(args);
-            
-        }catch (Exception e){
-            Log.printLine("ERROR: please check your workflow examples");
-            e.printStackTrace();
-        }
+
         
     }
 }
