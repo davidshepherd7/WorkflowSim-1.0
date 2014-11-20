@@ -67,15 +67,7 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
              * Should change this based on real physical path
              */
             String daxPath = "config/dax/Montage_100.xml";
-            if(daxPath == null){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
+
             /*
              *  Fault Tolerant Parameters
              */

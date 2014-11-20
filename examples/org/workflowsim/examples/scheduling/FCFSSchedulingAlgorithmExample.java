@@ -62,11 +62,7 @@ public class FCFSSchedulingAlgorithmExample extends DataAwareSchedulingAlgorithm
             String daxPath = "config/dax/Montage_100.xml";
             
             File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
-
+            
             /**
              * Since we are using HEFT planning algorithm, the scheduling algorithm should be static 
              * such that the scheduler would not override the result of the planner

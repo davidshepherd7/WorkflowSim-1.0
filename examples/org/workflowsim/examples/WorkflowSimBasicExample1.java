@@ -99,16 +99,9 @@ public class WorkflowSimBasicExample1 {
              * exact vmNum would be smaller than that. Take care.
              */
             int vmNum = 20;//number of vms;
-            /**
-             * Should change this based on real physical path
-             */
+
             String daxPath = "config/dax/Montage_100.xml";
 
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
 
             /**
              * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 

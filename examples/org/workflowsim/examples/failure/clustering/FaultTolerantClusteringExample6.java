@@ -112,16 +112,8 @@ public class FaultTolerantClusteringExample6 extends FaultTolerantClusteringExam
                }
            }
             t_scale /= 10;
-            if(daxPath == null){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return ;
-            }
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return ;
-            }
-            
+
+                        
             /**
              * Runtime Parameters
              */

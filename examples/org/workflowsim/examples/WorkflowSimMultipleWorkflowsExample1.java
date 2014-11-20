@@ -103,21 +103,7 @@ public class WorkflowSimMultipleWorkflowsExample1 {
             daxPaths.add("config/dax/Montage_100.xml");
             daxPaths.add("config/dax/Montage_25.xml");
             daxPaths.add("config/dax/Montage_1000.xml");
-            if(daxPaths == null){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
-            /**
-             * Check every file must exist
-             */
-            File daxFile;
-            for(String daxPath : daxPaths){
-                daxFile = new File(daxPath);
-                if(!daxFile.exists()){
-                    Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                    return;
-                }
-            }
+
 
             /**
              * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 

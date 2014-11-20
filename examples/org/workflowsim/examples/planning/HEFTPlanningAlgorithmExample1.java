@@ -89,16 +89,8 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
              * exact vmNum would be smaller than that. Take care.
              */
             int vmNum = 5;//number of vms;
-            /**
-             * Should change this based on real physical path
-             */
-            String daxPath = "config/dax/Montage_100.xml";
-            
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
+
+            String daxPath = "config/dax/Montage_100.xml";            
 
             /**
              * Since we are using HEFT planning algorithm, the scheduling algorithm should be static 

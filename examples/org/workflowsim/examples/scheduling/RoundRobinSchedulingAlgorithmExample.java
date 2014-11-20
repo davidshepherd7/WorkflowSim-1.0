@@ -56,17 +56,10 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
              * exact vmNum would be smaller than that. Take care.
              */
             int vmNum = 10;//number of vms;
-            /**
-             * Should change this based on real physical path
-             */
+
             String daxPath = "config/dax/Montage_100.xml";
             
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
-
+            
             /**
              * Since we are using HEFT planning algorithm, the scheduling algorithm should be static 
              * such that the scheduler would not override the result of the planner

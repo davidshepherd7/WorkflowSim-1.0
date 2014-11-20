@@ -15,6 +15,7 @@
  */
 package org.workflowsim.utils;
 
+import java.io.File;
 import java.util.List;
 import org.cloudbus.cloudsim.Log;
 
@@ -174,6 +175,17 @@ public class Parameters {
      * The default cost model is based on datacenter, similar to CloudSim
      */
     private static CostModel costModel = CostModel.DATACENTER;
+
+
+    /**
+     * Helper function to check that the given dax file exists.
+     */
+    private static void checkDaxPathExists(String daxPath) {
+        File daxFile = new File(daxPath);
+        if(!daxFile.exists()) {
+            throw new RuntimeException("Couldn't open dax file " + daxPath);
+        }
+    }
     
     /**
      * A static function so that you can specify them in any place
@@ -198,6 +210,8 @@ public class Parameters {
             OverheadParameters op, ClusteringParameters cp,
             SchedulingAlgorithm scheduler, PlanningAlgorithm planner, String rMethod,
             long dl) {
+
+        checkDaxPathExists(dax);
 
         cParams = cp;
         vmNum = vm;
@@ -236,6 +250,10 @@ public class Parameters {
             OverheadParameters op, ClusteringParameters cp,
             SchedulingAlgorithm scheduler, PlanningAlgorithm planner, String rMethod,
             long dl) {
+
+        for(String daxFile : dax) {
+            checkDaxPathExists(daxFile);
+        }
 
         cParams = cp;
         vmNum = vm;

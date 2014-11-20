@@ -102,19 +102,7 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
              * exact vmNum would be smaller than that. Take care.
              */
             int vmNum = 20;//number of vms;
-            /**
-             * Should change this based on real physical path
-             */
-            //String daxPath = "/Users/chenweiwei/Research/balanced_clustering/generator/BharathiPaper/Fake_1.xml";
-            if(daxPath == null){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
-            File daxFile = new File(daxPath);
-            if(!daxFile.exists()){
-                Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
-                return;
-            }
+
 
             /**
              * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
