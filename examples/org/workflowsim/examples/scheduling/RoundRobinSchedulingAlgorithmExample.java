@@ -59,7 +59,7 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
             /**
              * Should change this based on real physical path
              */
-            String daxPath = "/Users/chenweiwei/Work/WorkflowSim-1.0/config/dax/Montage_100.xml";
+            String daxPath = "config/dax/Montage_100.xml";
             
             File daxFile = new File(daxPath);
             if(!daxFile.exists()){
