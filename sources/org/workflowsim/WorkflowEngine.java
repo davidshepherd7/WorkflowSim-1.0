@@ -171,7 +171,7 @@ public class WorkflowEngine extends SimEntity {
                 shutdownEntity();
                 break;
 
-            case WorkflowSimTags.JOB_SUBMIT:
+            case CloudSimTags.JOB_SUBMIT:
                 processJobSubmit(ev);
                 break;
             // other unknown tags are processed by this method

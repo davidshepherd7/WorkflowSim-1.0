@@ -17,6 +17,7 @@ package org.workflowsim;
 
 import org.cloudbus.cloudsim.CloudletScheduler;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.workflowsim.utils.ReplicaCatalog;
 import org.workflowsim.utils.ReplicaCatalog.FileSystem;
 
@@ -35,7 +36,7 @@ public class CondorVM extends Vm {
      */
     private ClusterStorage storage;
     /*
-     * The state of a vm. It should be either WorkflowSimTags.VM_STATUS_IDLE
+     * The state of a vm. It should be either CloudSimTags.VM_STATUS_IDLE
      * or VM_STATUS_READY (not used in workflowsim) or VM_STATUS_BUSY
      */
     private int state;
@@ -96,7 +97,7 @@ public class CondorVM extends Vm {
         /*
          * At the beginning all vm status is idle. 
          */
-        setState(WorkflowSimTags.VM_STATUS_IDLE);
+        setState(CloudSimTags.VM_STATUS_IDLE);
         /*
          * If the file.system is LOCAL, we should add a clusterStorage to vm. 
          */

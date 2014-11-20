@@ -265,6 +265,33 @@ public class CloudSimTags {
 
 	public static final int NextCycle = BASE + 48;
 
+
+        /**
+         * Starting constant value for vm-related tags *
+         */
+        private static final int VMBASE = 1000;
+        /**
+         * VM Status is ready (not used)
+         */
+        public static final int VM_STATUS_READY = VMBASE + 2;
+        /**
+         * VM Status is busy (no jobs should run on this vm)
+         */
+        public static final int VM_STATUS_BUSY = VMBASE + 3;
+        /**
+         * VM Status is idle (a job can run on this vm)
+         */
+        public static final int VM_STATUS_IDLE = VMBASE + 4;
+
+
+        // Misc other tags required by workflow stuff
+        private static final int WORKFLOWBASE = 1100;
+        public static final int START_SIMULATION = WORKFLOWBASE + 0;
+        public static final int JOB_SUBMIT = WORKFLOWBASE + 1;
+        public static final int CLOUDLET_UPDATE = WORKFLOWBASE + 5;
+        public static final int CLOUDLET_CHECK = WORKFLOWBASE + 6;
+
+
 	/** Private Constructor */
 	private CloudSimTags() {
 		throw new UnsupportedOperationException("CloudSim Tags cannot be instantiated");

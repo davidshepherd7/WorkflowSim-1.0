@@ -134,14 +134,14 @@ public class WorkflowPlanner extends SimEntity {
     @Override
     public void processEvent(SimEvent ev) {
         switch (ev.getTag()) {
-            case WorkflowSimTags.START_SIMULATION:
+            case CloudSimTags.START_SIMULATION:
                 getWorkflowParser().parse();
                 setTaskList(getWorkflowParser().getTaskList());
 
                 processPlanning();
 
                 processImpactFactors(getTaskList());
-                sendNow(getClusteringEngineId(), WorkflowSimTags.JOB_SUBMIT, getTaskList());
+                sendNow(getClusteringEngineId(), CloudSimTags.JOB_SUBMIT, getTaskList());
                 break;
             case CloudSimTags.END_OF_SIMULATION:
                 shutdownEntity();
@@ -286,7 +286,7 @@ public class WorkflowPlanner extends SimEntity {
     public void startEntity() {
         Log.printLine("Starting WorkflowSim " + Parameters.getVersion());
         Log.printLine(getName() + " is starting...");
-        schedule(getId(), 0, WorkflowSimTags.START_SIMULATION);
+        schedule(getId(), 0, CloudSimTags.START_SIMULATION);
     }
 
     /**

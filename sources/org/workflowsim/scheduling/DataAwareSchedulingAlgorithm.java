@@ -22,7 +22,7 @@ import org.cloudbus.cloudsim.File;
 import org.cloudbus.cloudsim.Log;
 import org.workflowsim.CondorVM;
 import org.workflowsim.Job;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.workflowsim.utils.Parameters.FileType;
 import org.workflowsim.utils.ReplicaCatalog;
 
@@ -55,7 +55,7 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             double minTime = Double.MAX_VALUE;
             for (int j = 0; j < vmSize; j++) {
                 CondorVM vm = (CondorVM) getVmList().get(j);
-                if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
+                if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                    
                     
                     Job job = (Job)cloudlet;
@@ -69,7 +69,7 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             }
 
             if(closestVm!=null){
-                closestVm.setState(WorkflowSimTags.VM_STATUS_BUSY);
+                closestVm.setState(CloudSimTags.VM_STATUS_BUSY);
                 cloudlet.setVmId(closestVm.getId());
                 getScheduledList().add(cloudlet);
             

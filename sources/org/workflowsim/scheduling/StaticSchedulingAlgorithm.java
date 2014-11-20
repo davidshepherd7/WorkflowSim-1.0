@@ -20,7 +20,7 @@ import java.util.Map;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
 import org.workflowsim.CondorVM;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
  * Static algorithm. Do not schedule at all and reply on Workflow Planner to set
@@ -66,8 +66,8 @@ public class StaticSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
             }
             CondorVM vm = (CondorVM) mId2Vm.get(cloudlet.getVmId());
-            if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
-                vm.setState(WorkflowSimTags.VM_STATUS_BUSY);
+            if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
+                vm.setState(CloudSimTags.VM_STATUS_BUSY);
                 getScheduledList().add(cloudlet);
                 Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "
                         + cloudlet.getCloudletLength() + " to VM " + cloudlet.getVmId());

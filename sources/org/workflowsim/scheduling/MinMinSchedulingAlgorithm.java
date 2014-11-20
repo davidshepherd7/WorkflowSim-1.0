@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.workflowsim.CondorVM;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
  * MinMin algorithm.
@@ -81,7 +81,7 @@ public class MinMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             CondorVM firstIdleVm = null;//(CondorVM)getVmList().get(0);
             for (int j = 0; j < vmSize; j++) {
                 CondorVM vm = (CondorVM) getVmList().get(j);
-                if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
+                if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     firstIdleVm = vm;
                     break;
                 }
@@ -91,13 +91,13 @@ public class MinMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             }
             for (int j = 0; j < vmSize; j++) {
                 CondorVM vm = (CondorVM) getVmList().get(j);
-                if ((vm.getState() == WorkflowSimTags.VM_STATUS_IDLE)
+                if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
                         && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
                     firstIdleVm = vm;
 
                 }
             }
-            firstIdleVm.setState(WorkflowSimTags.VM_STATUS_BUSY);
+            firstIdleVm.setState(CloudSimTags.VM_STATUS_BUSY);
             minCloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(minCloudlet);
 

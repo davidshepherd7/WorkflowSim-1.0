@@ -109,7 +109,7 @@ public class WorkflowScheduler extends DatacenterBroker {
                 processVmCreate(ev);
                 break;
             // A finished cloudlet returned
-            case WorkflowSimTags.CLOUDLET_CHECK:
+            case CloudSimTags.CLOUDLET_CHECK:
                 processCloudletReturn(ev);
                 break;
             case CloudSimTags.CLOUDLET_RETURN:
@@ -123,7 +123,7 @@ public class WorkflowScheduler extends DatacenterBroker {
                 processCloudletSubmit(ev);
                 break;
 
-            case WorkflowSimTags.CLOUDLET_UPDATE:
+            case CloudSimTags.CLOUDLET_UPDATE:
                 processCloudletUpdate(ev);
                 break;
             // other unknown tags are processed by this method
@@ -294,7 +294,7 @@ public class WorkflowScheduler extends DatacenterBroker {
 
         CondorVM vm = (CondorVM) getVmsCreatedList().get(cloudlet.getVmId());
         //so that this resource is released
-        vm.setState(WorkflowSimTags.VM_STATUS_IDLE);
+        vm.setState(CloudSimTags.VM_STATUS_IDLE);
 
         double delay = 0.0;
         if(Parameters.getOverheadParams().getPostDelay()!=null){
@@ -305,7 +305,7 @@ public class WorkflowScheduler extends DatacenterBroker {
         cloudletsSubmitted--;
         //not really update right now, should wait 1 s until many jobs have returned
 
-        schedule(this.getId(), 0.0, WorkflowSimTags.CLOUDLET_UPDATE);
+        schedule(this.getId(), 0.0, CloudSimTags.CLOUDLET_UPDATE);
 
     }
 
@@ -378,7 +378,7 @@ public class WorkflowScheduler extends DatacenterBroker {
         List<Job> list = (List) ev.getData();
         getCloudletList().addAll(list);
 
-        sendNow(this.getId(), WorkflowSimTags.CLOUDLET_UPDATE);
+        sendNow(this.getId(), CloudSimTags.CLOUDLET_UPDATE);
         if (!processCloudletSubmitHasShown) {
             //Log.printLine("Pay Attention that the actual vm size is " + getVmsCreatedList().size());
             processCloudletSubmitHasShown = true;

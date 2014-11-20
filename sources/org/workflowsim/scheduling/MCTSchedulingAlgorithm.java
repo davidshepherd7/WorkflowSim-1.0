@@ -18,7 +18,7 @@ package org.workflowsim.scheduling;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
 import org.workflowsim.CondorVM;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
  * MCT algorithm
@@ -46,7 +46,7 @@ public class MCTSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
             for (int j = 0; j < vmSize; j++) {
                 CondorVM vm = (CondorVM) getVmList().get(j);
-                if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
+                if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     firstIdleVm = vm;
                     break;
                 }
@@ -57,13 +57,13 @@ public class MCTSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
             for (int j = 0; j < vmSize; j++) {
                 CondorVM vm = (CondorVM) getVmList().get(j);
-                if ((vm.getState() == WorkflowSimTags.VM_STATUS_IDLE)
+                if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
                         && (vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips())) {
                     firstIdleVm = vm;
 
                 }
             }
-            firstIdleVm.setState(WorkflowSimTags.VM_STATUS_BUSY);
+            firstIdleVm.setState(CloudSimTags.VM_STATUS_BUSY);
             cloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(cloudlet);
             Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "

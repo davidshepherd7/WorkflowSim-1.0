@@ -18,7 +18,7 @@ package org.workflowsim.scheduling;
 import java.util.Iterator;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.workflowsim.CondorVM;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
  * The FCFS algorithm. 
@@ -42,9 +42,9 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             for (Iterator itc = getVmList().iterator(); itc.hasNext();) {
 
                 CondorVM vm = (CondorVM) itc.next();
-                if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
+                if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     stillHasVm = true;
-                    vm.setState(WorkflowSimTags.VM_STATUS_BUSY);
+                    vm.setState(CloudSimTags.VM_STATUS_BUSY);
                     cloudlet.setVmId(vm.getId());
                     getScheduledList().add(cloudlet);
                     break;

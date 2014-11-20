@@ -309,9 +309,9 @@ public final class ClusteringEngine extends SimEntity {
     public void processEvent(SimEvent ev) {
 
         switch (ev.getTag()) {
-            case WorkflowSimTags.START_SIMULATION:
+            case CloudSimTags.START_SIMULATION:
                 break;
-            case WorkflowSimTags.JOB_SUBMIT:
+            case CloudSimTags.JOB_SUBMIT:
                 List list = (List) ev.getData();
                 setTaskList(list);
                 /**
@@ -326,7 +326,7 @@ public final class ClusteringEngine extends SimEntity {
                  * the workflow execution
                  */
                 processDatastaging();
-                sendNow(this.workflowEngineId, WorkflowSimTags.JOB_SUBMIT, getJobList());
+                sendNow(this.workflowEngineId, CloudSimTags.JOB_SUBMIT, getJobList());
                 break;
             case CloudSimTags.END_OF_SIMULATION:
                 shutdownEntity();
@@ -381,7 +381,7 @@ public final class ClusteringEngine extends SimEntity {
     @Override
     public void startEntity() {
         Log.printLine(getName() + " is starting...");
-        schedule(getId(), 0, WorkflowSimTags.START_SIMULATION);
+        schedule(getId(), 0, CloudSimTags.START_SIMULATION);
     }
 
     /**

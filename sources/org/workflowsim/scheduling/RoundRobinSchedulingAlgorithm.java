@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.workflowsim.CondorVM;
-import org.workflowsim.WorkflowSimTags;
+import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
  * The Round Robin algorithm.
@@ -48,7 +48,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             CondorVM firstIdleVm = null;//(CondorVM)getVmList().get(0);
             for (int l = 0; l < vmSize; l++) {
                 CondorVM vm = (CondorVM) vmList.get(l);
-                if (vm.getState() == WorkflowSimTags.VM_STATUS_IDLE) {
+                if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     firstIdleVm = vm;
                     break;
                 }
@@ -56,7 +56,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             if (firstIdleVm == null) {
                 break;
             }
-            ((CondorVM) firstIdleVm).setState(WorkflowSimTags.VM_STATUS_BUSY);
+            ((CondorVM) firstIdleVm).setState(CloudSimTags.VM_STATUS_BUSY);
             cloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(cloudlet);
             vmIndex = (vmIndex + 1) % vmList.size();
