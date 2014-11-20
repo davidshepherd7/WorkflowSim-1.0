@@ -188,9 +188,9 @@ public abstract class RunnerAbstract {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.printLine("The simulation has been terminated due to an unexpected error");
-			System.exit(0);
+                        throw new RuntimeException(e);
 		}
-
+                
 		Log.printLine("Finished " + experimentName);
 	}
 

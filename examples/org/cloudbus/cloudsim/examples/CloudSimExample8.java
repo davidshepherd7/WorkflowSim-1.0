@@ -153,6 +153,7 @@ public class CloudSimExample8 {
 		{
 			e.printStackTrace();
 			Log.printLine("The simulation has been terminated due to an unexpected error");
+throw new RuntimeException(e);
 		}
 	}
 

@@ -281,8 +281,8 @@ public class FaultTolerantClusteringExample5 extends FaultTolerantClusteringExam
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-        }
-       return 0.0;
+            throw new RuntimeException(e);
+       }
     }
     
     /**

@@ -303,6 +303,7 @@ public class FaultTolerantClusteringExample6 extends FaultTolerantClusteringExam
         } catch (Exception e) {
             e.printStackTrace();
             Log.printLine("The simulation has been terminated due to an unexpected error");
+throw new RuntimeException(e);
         }
     }
     

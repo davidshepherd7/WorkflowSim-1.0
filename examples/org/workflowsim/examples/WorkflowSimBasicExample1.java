@@ -183,6 +183,7 @@ public class WorkflowSimBasicExample1 {
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
+throw new RuntimeException(e);
         }
     }
 
