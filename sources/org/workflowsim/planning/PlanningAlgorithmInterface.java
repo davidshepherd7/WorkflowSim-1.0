@@ -16,6 +16,7 @@
 package org.workflowsim.planning;
 
 import java.util.List;
+import org.cloudbus.cloudsim.Vm;
 
 /**
  * The Planner interface
@@ -44,7 +45,7 @@ public interface PlanningAlgorithmInterface {
     /**
      * Gets the vm list. An algorithm must implement it
      */
-    public List getVmList();
+    public List<? extends Vm> getVmList();
 
     /**
      * the main function.

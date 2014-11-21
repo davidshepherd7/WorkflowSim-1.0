@@ -86,7 +86,7 @@ public abstract class BaseSchedulingAlgorithm implements SchedulingAlgorithmInte
      * @return the vm list
      */
     @Override
-    public List getVmList() {
+    public List<? extends Vm> getVmList() {
         return this.vmList;
     }
 

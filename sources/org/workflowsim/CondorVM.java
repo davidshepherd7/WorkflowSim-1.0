@@ -30,7 +30,7 @@ import org.workflowsim.utils.ReplicaCatalog.FileSystem;
  */
 public class CondorVM extends Vm {
 
-    /*
+    /**
      * The local storage system a vm has if file.system=LOCAL
      */
     private ClusterStorage storage;

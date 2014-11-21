@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
-import org.workflowsim.CondorVM;
+import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
@@ -41,10 +41,10 @@ public class StaticSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     @Override
     public void run() throws Exception {
 
-        Map mId2Vm = new HashMap<Integer, CondorVM>();
+        Map<Integer, Vm> mId2Vm = new HashMap<Integer, Vm>();
 
         for (int i = 0; i < getVmList().size(); i++) {
-            CondorVM vm = (CondorVM) getVmList().get(i);
+            Vm vm = getVmList().get(i);
             if (vm != null) {
                 mId2Vm.put(vm.getId(), vm);
             }
@@ -65,7 +65,7 @@ public class StaticSchedulingAlgorithm extends BaseSchedulingAlgorithm {
                 cloudlet.setVmId(0);
 
             }
-            CondorVM vm = (CondorVM) mId2Vm.get(cloudlet.getVmId());
+            Vm vm = mId2Vm.get(cloudlet.getVmId());
             if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                 vm.setState(CloudSimTags.VM_STATUS_BUSY);
                 getScheduledList().add(cloudlet);

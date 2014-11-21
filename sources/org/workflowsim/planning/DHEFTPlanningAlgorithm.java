@@ -43,7 +43,7 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
     @Override
     public void run() {
 
-        List<Vm> vmList = getVmList();
+        List<? extends Vm> vmList = getVmList();
         double [][] bandwidths = new double[vmList.size()][vmList.size()];
         
         for(int i = 0; i < vmList.size(); i++){

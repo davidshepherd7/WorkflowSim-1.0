@@ -16,6 +16,7 @@
 package org.workflowsim.scheduling;
 
 import java.util.List;
+import org.cloudbus.cloudsim.Vm;
 
 /**
  * The Scheduler interface
@@ -44,7 +45,7 @@ public interface SchedulingAlgorithmInterface {
     /**
      * Gets the vm list.
      */
-    public List getVmList();
+    public List<? extends Vm> getVmList();
 
     /**
      * the main function.

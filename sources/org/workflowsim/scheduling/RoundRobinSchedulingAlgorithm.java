@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.cloudbus.cloudsim.Cloudlet;
-import org.workflowsim.CondorVM;
+import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
@@ -40,14 +40,14 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
         
         int size = getCloudletList().size();
         Collections.sort(getCloudletList(), new CloudletListComparator());
-        List vmList = getVmList();
+        List<? extends Vm> vmList = getVmList();
         Collections.sort(vmList, new VmListComparator());
         for (int j = 0; j < size; j++) {
             Cloudlet cloudlet = (Cloudlet) getCloudletList().get(j);
             int vmSize = vmList.size();
-            CondorVM firstIdleVm = null;//(CondorVM)getVmList().get(0);
+            Vm firstIdleVm = null;
             for (int l = 0; l < vmSize; l++) {
-                CondorVM vm = (CondorVM) vmList.get(l);
+                Vm vm = vmList.get(l);
                 if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     firstIdleVm = vm;
                     break;
@@ -56,7 +56,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             if (firstIdleVm == null) {
                 break;
             }
-            ((CondorVM) firstIdleVm).setState(CloudSimTags.VM_STATUS_BUSY);
+            firstIdleVm.setState(CloudSimTags.VM_STATUS_BUSY);
             cloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(cloudlet);
             vmIndex = (vmIndex + 1) % vmList.size();
@@ -67,9 +67,9 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     /**
      * Sort it based on vm index
      */
-    public class VmListComparator implements Comparator<CondorVM>{
+    public class VmListComparator implements Comparator<Vm>{
         @Override
-        public int compare(CondorVM v1, CondorVM v2){
+            public int compare(Vm v1, Vm v2){
             return Integer.compare(v1.getId(), v2.getId());
         }
     }

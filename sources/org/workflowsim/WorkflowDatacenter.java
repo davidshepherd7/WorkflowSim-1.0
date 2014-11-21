@@ -110,7 +110,6 @@ public class WorkflowDatacenter extends Datacenter {
             int userId = cl.getUserId();
             int vmId = cl.getVmId();
             Host host = getVmAllocationPolicy().getHost(vmId, userId);
-            CondorVM vm = (CondorVM)host.getVm(vmId, userId);
 
             switch (Parameters.getCostModel()) {
                 case DATACENTER:
@@ -119,13 +118,14 @@ public class WorkflowDatacenter extends Datacenter {
                             getCharacteristics().getCostPerBw());
                     break;
                 case VM:
-                    cl.setResourceParameter(getId(), vm.getCost(), vm.getCostPerBW());
+                CondorVM cvm = (CondorVM) host.getVm(vmId, userId);
+                cl.setResourceParameter(getId(), cvm.getCost(), cvm.getCostPerBW());
                     break;
                 default:
                     break;
             }
 
-
+            Vm vm = host.getVm(vmId, userId);
 
 
             /**
@@ -446,7 +446,7 @@ public class WorkflowDatacenter extends Datacenter {
                         /**
                          * Left here for future work
                          */
-                        CondorVM vm = (CondorVM) host.getVm(vmId, userId);
+                        Vm vm = host.getVm(vmId, userId);
 
                         ReplicaCatalog.addStorageList(file.getName(), Integer.toString(vmId));
                         break;

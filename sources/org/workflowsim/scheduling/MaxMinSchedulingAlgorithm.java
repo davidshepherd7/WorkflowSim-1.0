@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Log;
-import org.workflowsim.CondorVM;
+import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
@@ -88,9 +88,9 @@ public class MaxMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             hasChecked.set(maxIndex, true);
 
             int vmSize = getVmList().size();
-            CondorVM firstIdleVm = null;//(CondorVM)getVmList().get(0);
+            Vm firstIdleVm = null;//(CondorVM)getVmList().get(0);
             for (int j = 0; j < vmSize; j++) {
-                CondorVM vm = (CondorVM) getVmList().get(j);
+                Vm vm = getVmList().get(j);
                 if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
                     firstIdleVm = vm;
                     break;
@@ -100,7 +100,7 @@ public class MaxMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
                 break;
             }
             for (int j = 0; j < vmSize; j++) {
-                CondorVM vm = (CondorVM) getVmList().get(j);
+                Vm vm = getVmList().get(j);
                 if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
                         && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
                     firstIdleVm = vm;

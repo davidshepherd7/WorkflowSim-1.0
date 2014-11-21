@@ -22,6 +22,7 @@ import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.DatacenterBroker;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
 import org.cloudbus.cloudsim.Log;
+import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
@@ -292,7 +293,7 @@ public class WorkflowScheduler extends DatacenterBroker {
         getCloudletReceivedList().add(cloudlet);
         getCloudletSubmittedList().remove(cloudlet);
 
-        CondorVM vm = (CondorVM) getVmsCreatedList().get(cloudlet.getVmId());
+        Vm vm = getVmsCreatedList().get(cloudlet.getVmId());
         //so that this resource is released
         vm.setState(CloudSimTags.VM_STATUS_IDLE);
 
