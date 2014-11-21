@@ -2,6 +2,9 @@
 package org.workflowsim.examples.scheduling;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ArrayList;
@@ -53,10 +56,12 @@ public class FCFSPower {
      */
     public static void main(String[] args) {
 
+        String logFileName = "log";
 
-	// First step: Initialize the WorkflowSim package.
-	// ============================================================
-	{
+
+        // First step: Initialize the WorkflowSim package.
+        // ============================================================
+        {
             // Use FCFS
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.FCFS;
 
@@ -135,12 +140,23 @@ public class FCFSPower {
         // Simulate!
         // ============================================================
         {
+            // Divert the simultation logs to a file
+            OutputStream logFile = null;
+            try {
+                logFile = new FileOutputStream(new File("a"));
+            } catch(FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            Log.setOutput(logFile);
+
             CloudSim.startSimulation();
 
             List<Job> outputList0 = wfEngine.getJobsReceivedList();
 
             CloudSim.stopSimulation();
 
+            // But print summary to screen
+            Log.setOutput(System.out);
             printJobList(outputList0);
         }
 
@@ -206,13 +222,13 @@ public class FCFSPower {
         storageList.add(s1); 
 
         // ??ds
-        VmAllocationPolicy vmAllocationPol 
+        VmAllocationPolicy vmAllocationPolicy
             = new VmAllocationPolicySimple(hostList);
 
         // Make the data center itself at last!
         try {
             datacenter = new WorkflowDatacenter
-                (name, characteristics, vmAllocationPol, storageList, 0);
+                (name, characteristics, vmAllocationPolicy, storageList, 0);
 
         } catch(Exception e) {
             throw new RuntimeException(e);
