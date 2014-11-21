@@ -30,9 +30,6 @@ import org.cloudbus.cloudsim.core.CloudSim;
  */
 public class NetworkVmAllocationPolicy extends VmAllocationPolicy {
 
-    /** The vm table. */
-    private Map<String, Host> vmTable;
-
     /** The used pes. */
     private Map<String, Integer> usedPes;
 
@@ -154,55 +151,6 @@ public class NetworkVmAllocationPolicy extends VmAllocationPolicy {
             host.vmDestroy(vm);
             getFreePes().set(idx, getFreePes().get(idx) + pes);
         }
-    }
-
-    /**
-     * Gets the host that is executing the given VM belonging to the given user.
-     *
-     * @param vm the vm
-     *
-     * @return the Host with the given vmID and userID; $null if not found
-     *
-     * @pre $none
-     * @post $none
-     */
-    @Override
-    public Host getHost(Vm vm) {
-        return getVmTable().get(vm.getUid());
-    }
-
-    /**
-     * Gets the host that is executing the given VM belonging to the given user.
-     *
-     * @param vmId the vm id
-     * @param userId the user id
-     *
-     * @return the Host with the given vmID and userID; $null if not found
-     *
-     * @pre $none
-     * @post $none
-     */
-    @Override
-    public Host getHost(int vmId, int userId) {
-        return getVmTable().get(Vm.getUid(userId, vmId));
-    }
-
-    /**
-     * Gets the vm table.
-     *
-     * @return the vm table
-     */
-    public Map<String, Host> getVmTable() {
-        return vmTable;
-    }
-
-    /**
-     * Sets the vm table.
-     *
-     * @param vmTable the vm table
-     */
-    protected void setVmTable(Map<String, Host> vmTable) {
-        this.vmTable = vmTable;
     }
 
     /**

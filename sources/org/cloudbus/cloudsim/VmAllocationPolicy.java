@@ -25,6 +25,9 @@ public abstract class VmAllocationPolicy {
     /** The host list. */
     private List<? extends Host> hostList;
 
+    /** The vm allocation table. */
+    private Map<String, Host> vmTable;
+
     /**
      * Allocates a new VmAllocationPolicy object.
      *
@@ -84,7 +87,9 @@ public abstract class VmAllocationPolicy {
      * @pre $none
      * @post $none
      */
-    public abstract Host getHost(Vm vm);
+    public Host getHost(Vm vm) {
+        return getVmTable().get(vm.getUid());
+    }
 
     /**
      * Get the host that is executing the given VM belonging to the given user.
@@ -95,7 +100,9 @@ public abstract class VmAllocationPolicy {
      * @pre $none
      * @post $none
      */
-    public abstract Host getHost(int vmId, int userId);
+    public Host getHost(int vmId, int userId) {
+        return getVmTable().get(Vm.getUid(userId, vmId));
+    }
 
     /**
      * Sets the host list.
@@ -114,6 +121,24 @@ public abstract class VmAllocationPolicy {
     @SuppressWarnings("unchecked")
     public <T extends Host> List<T> getHostList() {
         return (List<T>) hostList;
+    }
+
+    /**
+     * Gets the vm table.
+     *
+     * @return the vm table
+     */
+    public Map<String, Host> getVmTable() {
+        return vmTable;
+    }
+
+  /**
+     * Sets the vm table.
+     *
+     * @param vmTable the vm table
+     */
+    protected void setVmTable(Map<String, Host> vmTable) {
+        this.vmTable = vmTable;
     }
 
 }

@@ -34,9 +34,6 @@ import org.cloudbus.cloudsim.core.CloudSim;
  */
 public abstract class PowerVmAllocationPolicyAbstract extends VmAllocationPolicy {
 
-    /** The vm table. */
-    private final Map<String, Host> vmTable = new HashMap<String, Host>();
-
     /**
      * Instantiates a new power vm allocation policy abstract.
      *
@@ -106,31 +103,5 @@ public abstract class PowerVmAllocationPolicyAbstract extends VmAllocationPolicy
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.cloudbus.cloudsim.VmAllocationPolicy#getHost(org.cloudbus.cloudsim.Vm)
-     */
-    @Override
-    public Host getHost(Vm vm) {
-        return getVmTable().get(vm.getUid());
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see org.cloudbus.cloudsim.VmAllocationPolicy#getHost(int, int)
-     */
-    @Override
-    public Host getHost(int vmId, int userId) {
-        return getVmTable().get(Vm.getUid(userId, vmId));
-    }
-
-    /**
-     * Gets the vm table.
-     *
-     * @return the vm table
-     */
-    public Map<String, Host> getVmTable() {
-        return vmTable;
-    }
 
 }
