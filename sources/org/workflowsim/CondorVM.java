@@ -93,10 +93,10 @@ public class CondorVM extends Vm {
          * If the file.system is LOCAL, we should add a clusterStorage to vm. 
          */
         if (ReplicaCatalog.getFileSystem() == FileSystem.LOCAL) {
-            try {
+            // try {
                 storage = new ClusterStorage(Integer.toString(id), 1e6);
-            } catch (Exception e) {
-            }
+            // } catch (Exception e) {
+            // }
         }
     }
     

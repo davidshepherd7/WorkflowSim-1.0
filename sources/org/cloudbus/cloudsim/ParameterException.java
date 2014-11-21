@@ -23,7 +23,7 @@ package org.cloudbus.cloudsim;
  * @author Chen-Khong Tham, National University of Singapore
  * @since CloudSim Toolkit 1.0
  */
-public class ParameterException extends Exception {
+public class ParameterException extends RuntimeException {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

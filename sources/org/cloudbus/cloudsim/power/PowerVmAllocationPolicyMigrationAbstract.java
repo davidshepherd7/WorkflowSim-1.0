@@ -232,6 +232,7 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 						}
 					}
 				} catch (Exception e) {
+                                    throw new RuntimeException(e);
 				}
 			}
 		}
@@ -539,8 +540,7 @@ public abstract class PowerVmAllocationPolicyMigrationAbstract extends PowerVmAl
 		try {
 			power = host.getPowerModel().getPower(getMaxUtilizationAfterAllocation(host, vm));
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
+                        throw new RuntimeException(e);
 		}
 		return power;
 	}

@@ -91,7 +91,7 @@ public class PowerDatacenterNonPowerAware extends PowerDatacenter {
 					hostPower = host.getMaxPower() * timeDiff;
 					timeframePower += hostPower;
 				} catch (Exception e) {
-					e.printStackTrace();
+                                    throw new RuntimeException(e);
 				}
 
 				Log.formatLine(

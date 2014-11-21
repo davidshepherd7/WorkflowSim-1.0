@@ -385,12 +385,12 @@ public class Datacenter extends SimEntity {
 			} catch (Exception e) {
 				Log.printLine(getName() + ": Error in processing CloudSimTags.CLOUDLET_STATUS");
 				Log.printLine(e.getMessage());
-				return;
+                                throw new RuntimeException(e);
 			}
 		} catch (Exception e) {
 			Log.printLine(getName() + ": Error in processing CloudSimTags.CLOUDLET_STATUS");
 			Log.printLine(e.getMessage());
-			return;
+                        throw new RuntimeException(e);
 		}
 
 		int[] array = new int[3];
@@ -562,12 +562,12 @@ public class Datacenter extends SimEntity {
 			} catch (Exception e) {
 				Log.printLine(super.getName() + ": Error in processing Cloudlet");
 				Log.printLine(e.getMessage());
-				return;
+                                throw new RuntimeException(e);
 			}
 		} catch (Exception e) {
 			Log.printLine(super.getName() + ": Error in processing a Cloudlet.");
 			Log.printLine(e.getMessage());
-			return;
+                    throw new RuntimeException(e);
 		}
 
 		// begins executing ....
@@ -742,12 +742,13 @@ public class Datacenter extends SimEntity {
 				int tag = CloudSimTags.CLOUDLET_SUBMIT_ACK;
 				sendNow(cl.getUserId(), tag, data);
 			}
-		} catch (ClassCastException c) {
-			Log.printLine(getName() + ".processCloudletSubmit(): " + "ClassCastException error.");
-			c.printStackTrace();
+            // } catch (ClassCastException c) {
+            // 	Log.printLine(getName() + ".processCloudletSubmit(): " + "ClassCastException error.");
+            // 	c.printStackTrace();
 		} catch (Exception e) {
 			Log.printLine(getName() + ".processCloudletSubmit(): " + "Exception error.");
 			e.printStackTrace();
+            throw new RuntimeException(e);
 		}
 
 		checkCloudletCompletion();

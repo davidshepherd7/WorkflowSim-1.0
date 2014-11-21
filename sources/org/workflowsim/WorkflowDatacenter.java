@@ -169,8 +169,8 @@ public class WorkflowDatacenter extends Datacenter {
                 int tag = CloudSimTags.CLOUDLET_SUBMIT_ACK;
                 sendNow(cl.getUserId(), tag, data);
             }
-        } catch (ClassCastException c) {
-            Log.printLine(getName() + ".processCloudletSubmit(): " + "ClassCastException error.");
+            // } catch (ClassCastException c) {
+            //     Log.printLine(getName() + ".processCloudletSubmit(): " + "ClassCastException error.");
 
         } catch (Exception e) {
             Log.printLine(getName() + ".processCloudletSubmit(): " + "Exception error.");

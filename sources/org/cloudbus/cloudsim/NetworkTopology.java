@@ -187,6 +187,7 @@ public class NetworkTopology {
 			} catch (Exception e) {
 				Log.printLine("Error in network mapping. CloudSim node " + cloudSimEntityID
 						+ " not mapped to BRITE node " + briteID + ".");
+                                throw new RuntimeException(e);
 			}
 		}
 	}
@@ -204,6 +205,7 @@ public class NetworkTopology {
 				map.remove(cloudSimEntityID);
 			} catch (Exception e) {
 				Log.printLine("Error in network unmapping. CloudSim node: " + cloudSimEntityID);
+                throw new RuntimeException(e);
 			}
 		}
 	}
@@ -220,17 +222,14 @@ public class NetworkTopology {
 	 */
 	public static double getDelay(int srcID, int destID) {
 		if (networkEnabled) {
-			try {
 				// add the network latency
 				double delay = delayMatrix.getDelay(map.get(srcID), map.get(destID));
 
 				return delay;
-			} catch (Exception e) {
-				// in case of error, just keep running and return 0.0
-			}
-		}
+        } else {
 		return 0.0;
 	}
+    }
 
 	/**
 	 * This method returns true if network simulation is working. If there were some problem during

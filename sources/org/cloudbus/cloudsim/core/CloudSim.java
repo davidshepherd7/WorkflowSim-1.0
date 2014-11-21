@@ -131,6 +131,7 @@ public class CloudSim {
 		} catch (Exception e) {
 			Log.printLine("CloudSim.init(): The simulation has been terminated due to an unexpected error");
 			Log.printLine(e.getMessage());
+                        throw new RuntimeException(e);
 		}
 	}
 

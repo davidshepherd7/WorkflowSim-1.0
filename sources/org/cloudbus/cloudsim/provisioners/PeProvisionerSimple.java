@@ -119,6 +119,7 @@ public class PeProvisionerSimple extends PeProvisioner {
 			try {
 				return getPeTable().get(vm.getUid()).get(peId);
 			} catch (Exception e) {
+                            throw new RuntimeException(e);
 			}
 		}
 		return 0;
