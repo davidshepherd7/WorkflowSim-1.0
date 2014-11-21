@@ -228,8 +228,10 @@ public class DatacenterBroker extends SimEntity {
                           + " has been created in Datacenter #" + datacenterId + ", Host #"
                           + VmList.getById(getVmsCreatedList(), vmId).getHost().getId());
         } else {
-            Log.printLine(CloudSim.clock() + ": " + getName() + ": Creation of VM #" + vmId
-                          + " failed in Datacenter #" + datacenterId);
+            String error = CloudSim.clock() + ": " + getName() + ": Creation of VM #" + vmId
+                + " failed in Datacenter #" + datacenterId;
+            Log.printLine(error);
+            throw new RuntimeException(error);
         }
 
         incrementVmsAcks();
