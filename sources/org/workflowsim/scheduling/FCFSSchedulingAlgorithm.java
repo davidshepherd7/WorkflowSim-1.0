@@ -19,6 +19,7 @@ import java.util.Iterator;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSimTags;
+import org.cloudbus.cloudsim.power.PowerHost;
 
 /**
  * The FCFS algorithm.
@@ -34,6 +35,12 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
      */
     @Override
     public void run() {
+
+
+        for(Vm vm : getVmList()) {
+            PowerHost pHost = (PowerHost) vm.getHost();
+            System.out.println(pHost.getPower());
+        }
 
 
         for (Iterator it = getCloudletList().iterator(); it.hasNext();) {

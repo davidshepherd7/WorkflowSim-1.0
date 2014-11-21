@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
@@ -21,6 +22,7 @@ import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.Storage;
 import org.cloudbus.cloudsim.Vm;
+import org.cloudbus.cloudsim.Datacenter;
 import org.cloudbus.cloudsim.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.VmAllocationPolicy;
 import org.cloudbus.cloudsim.VmSchedulerTimeShared;
@@ -36,13 +38,13 @@ import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 import org.workflowsim.ClusterStorage;
 import org.workflowsim.Job;
-import org.workflowsim.WorkflowDatacenter;
 import org.workflowsim.WorkflowEngine;
 import org.workflowsim.WorkflowPlanner;
 import org.workflowsim.utils.ClusteringParameters;
 import org.workflowsim.utils.OverheadParameters;
 import org.workflowsim.utils.Parameters;
 import org.workflowsim.utils.ReplicaCatalog;
+import org.workflowsim.power.WorkflowPowerAwareDatacenter;
 
 /**
  * The FCFS Scheduling Algorithm with power aware stuff
@@ -85,7 +87,7 @@ public class FCFSPower {
             int vmNum = 50;
 
             // Initialize static Parameters object
-            Parameters.init(vmNum, "config/dax/Montage_100.xml", null,
+            Parameters.init(vmNum, "config/dax/Montage_25.xml", null,
                             null, op, cp, sch_method, pln_method,
                             null, 0);
             ReplicaCatalog.init(file_system);
@@ -110,7 +112,7 @@ public class FCFSPower {
         WorkflowEngine wfEngine = null;
         {
             // Create a datacenter that can handle workflows
-            WorkflowDatacenter datacenter0 = createDatacenter("Datacenter_0");
+            Datacenter datacenter = createDatacenter("Datacenter_0");
 
             // Create a WorkflowPlanner with one scheduler
             WorkflowPlanner wfPlanner = null;
@@ -131,8 +133,8 @@ public class FCFSPower {
             // Submits this list of vms to this WorkflowEngine.
             wfEngine.submitVmList(vmlist0, 0);
 
-            // Binds the data centers with the scheduler.
-            wfEngine.bindSchedulerDatacenter(datacenter0.getId(), 0);
+            // Binds the data centers with the first scheduler.
+            wfEngine.bindSchedulerDatacenter(datacenter.getId(), 0);
         }
 
 
@@ -164,7 +166,7 @@ public class FCFSPower {
     /**
      * Function to set up a data center
      */
-    protected static WorkflowDatacenter createDatacenter(String name) {
+    protected static Datacenter createDatacenter(String name) {
 
         // Create a list of machines (Hosts).
         List<Host> hostList = new ArrayList<Host>();
@@ -202,7 +204,7 @@ public class FCFSPower {
         double costPerMem = 0.05;               // the cost of using memory in this resource
         double costPerStorage = 0.1;    // the cost of using storage in this resource
         double costPerBw = 0.1;                 // the cost of using bw in this resource
-        WorkflowDatacenter datacenter = null;
+        Datacenter datacenter = null;
         DatacenterCharacteristics characteristics
             = new DatacenterCharacteristics
             (arch, os, vmm, hostList, time_zone, cost, costPerMem,
@@ -226,7 +228,7 @@ public class FCFSPower {
 
         // Make the data center itself at last!
         try {
-            datacenter = new WorkflowDatacenter
+            datacenter = new WorkflowPowerAwareDatacenter
                 (name, characteristics, vmAllocationPolicy, storageList, 0);
 
         } catch(Exception e) {

@@ -17,6 +17,8 @@ import org.cloudbus.cloudsim.power.models.PowerModel;
 import org.cloudbus.cloudsim.provisioners.BwProvisioner;
 import org.cloudbus.cloudsim.provisioners.RamProvisioner;
 
+import sources.org.workflowsim.power.PowerAware;
+
 /**
  * PowerHost class enables simulation of power-aware hosts.
  * 
@@ -31,7 +33,7 @@ import org.cloudbus.cloudsim.provisioners.RamProvisioner;
  * @author Anton Beloglazov
  * @since CloudSim Toolkit 2.0
  */
-public class PowerHost extends HostDynamicWorkload {
+public class PowerHost extends HostDynamicWorkload implements PowerAware {
     
     /** The power model. */
     private PowerModel powerModel;
