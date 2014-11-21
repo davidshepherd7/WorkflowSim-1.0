@@ -58,7 +58,7 @@ public class MCTSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             for (int j = 0; j < vmSize; j++) {
                 Vm vm = getVmList().get(j);
                 if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
-                        && (vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips())) {
+                    && (vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips())) {
                     firstIdleVm = vm;
 
                 }
@@ -67,8 +67,8 @@ public class MCTSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             cloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(cloudlet);
             Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "
-                    + cloudlet.getCloudletLength() + " to VM " + firstIdleVm.getId()
-                    + " with " + firstIdleVm.getCurrentRequestedTotalMips());
+                          + cloudlet.getCloudletLength() + " to VM " + firstIdleVm.getId()
+                          + " with " + firstIdleVm.getCurrentRequestedTotalMips());
 
 
 

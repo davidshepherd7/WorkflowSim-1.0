@@ -1,19 +1,19 @@
 /*
- * 
+ *
  *   Copyright 2012-2013 University Of Southern California
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing,
  *   software distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  */
 package org.workflowsim.utils;
 
@@ -27,12 +27,12 @@ import org.apache.commons.math3.distribution.RealDistribution;
  * @author Weiwei Chen
  */
 public class PeriodicalDistributionGenerator extends DistributionGenerator{
-    
+
     /**
-     * The periodical signal stored 
+     * The periodical signal stored
      */
     protected PeriodicalSignal signal;
-    
+
     /**
      * Initialize a Class
      * @param dist distribution
@@ -46,19 +46,19 @@ public class PeriodicalDistributionGenerator extends DistributionGenerator{
         //generate samples periodically
         double currentTime = 0.0;
         samples = generatePeriodicalSamples(currentTime);
-                
+
         updateCumulativeSamples();
         cursor = 0;
-       
+
     }
-    
+
     /**
      * Initialize a Class
-     * 
+     *
      * @param dist distribution
      * @param scale scale parameter
      * @param shape shape parameter
-     * @param a prior knowledge 
+     * @param a prior knowledge
      * @param b prior knowledge
      * @param c prior knowledge
      * @param signal periodical signal
@@ -81,7 +81,7 @@ public class PeriodicalDistributionGenerator extends DistributionGenerator{
         samples = concat(samples, new_samples);
         updateCumulativeSamples();
     }
-    
+
     /**
      * Generates a periodical sample
      * @return samples
@@ -108,7 +108,7 @@ public class PeriodicalDistributionGenerator extends DistributionGenerator{
             }
             periodicalSamples[i] = distribution.sample();
             currentTime += periodicalSamples[i];
-            
+
         }
         return periodicalSamples;
     }

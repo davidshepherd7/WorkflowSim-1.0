@@ -49,7 +49,7 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -60,7 +60,7 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
 
             String daxPath = "config/dax/Montage_100.xml";
 
-            
+
             /**
              * Since we are using HEFT planning algorithm, the scheduling
              * algorithm should be static such that the scheduler would not
@@ -85,8 +85,8 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -133,7 +133,7 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

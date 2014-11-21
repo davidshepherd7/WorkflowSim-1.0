@@ -1,19 +1,19 @@
 /*
- * 
+ *
  *   Copyright 2013-2014 University Of Southern California
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing,
  *   software distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  */
 package org.workflowsim.utils;
 
@@ -43,7 +43,7 @@ public class DistributionGenerator {
     protected double[] cumulativeSamples;
     protected int cursor;
     protected final int SAMPLE_SIZE = 1500 ; //DistributionGenerator will automatically increase the size
-    
+
 
     public enum DistributionFamily {
 
@@ -155,24 +155,24 @@ public class DistributionGenerator {
 
         for (int i = 0; i < cursor; i++) {
             switch (dist) {
-                case GAMMA:
-                    sum += samples[i];
-                    break;
-                case WEIBULL:
-                    sum += Math.pow(samples[i], likelihood_prior);
-                    break;
+            case GAMMA:
+                sum += samples[i];
+                break;
+            case WEIBULL:
+                sum += Math.pow(samples[i], likelihood_prior);
+                break;
             }
         }
         double result = 0.0;
         switch (dist) {
-            case GAMMA:
-                result = (b + sum) / (a + cursor * likelihood_prior - 1);
-                break;
-            case WEIBULL:
-                result = (b + sum) / (a + cursor + 1);
-                break;
-            default:
-                break;
+        case GAMMA:
+            result = (b + sum) / (a + cursor * likelihood_prior - 1);
+            break;
+        case WEIBULL:
+            result = (b + sum) / (a + cursor + 1);
+            break;
+        default:
+            break;
         }
         return result;
     }
@@ -232,25 +232,25 @@ public class DistributionGenerator {
     public RealDistribution getDistribution(double scale, double shape) {
         RealDistribution distribution = null;
         switch (this.dist) {
-            case LOGNORMAL:
-                distribution = new LogNormalDistribution(scale, shape);
-                break;
-            case WEIBULL:
-                distribution = new WeibullDistribution(shape, scale);
-                break;
-            case GAMMA:
-                distribution = new GammaDistribution(shape, scale);
-                break;
-            case NORMAL:
-                //shape is the std, scale is the mean
-                distribution = new NormalDistribution(scale, shape);
-                break;
-            default:
-                break;
+        case LOGNORMAL:
+            distribution = new LogNormalDistribution(scale, shape);
+            break;
+        case WEIBULL:
+            distribution = new WeibullDistribution(shape, scale);
+            break;
+        case GAMMA:
+            distribution = new GammaDistribution(shape, scale);
+            break;
+        case NORMAL:
+            //shape is the std, scale is the mean
+            distribution = new NormalDistribution(scale, shape);
+            break;
+        default:
+            break;
         }
         return distribution;
     }
-    
+
     /**
      * Gets the scale parameter
      * @return scale
@@ -259,7 +259,7 @@ public class DistributionGenerator {
     {
         return this.scale;
     }
-    
+
     /**
      * Gets the shape parameter
      * @return shape

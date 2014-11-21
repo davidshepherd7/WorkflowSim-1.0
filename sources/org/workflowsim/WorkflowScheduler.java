@@ -79,7 +79,7 @@ public class WorkflowScheduler extends DatacenterBroker {
         }
         this.datacenterIdsList.add(datacenterId);
     }
-    
+
     /**
      * Sets the workflow engine id
      *
@@ -98,39 +98,39 @@ public class WorkflowScheduler extends DatacenterBroker {
     public void processEvent(SimEvent ev) {
         switch (ev.getTag()) {
             // Resource characteristics request
-            case CloudSimTags.RESOURCE_CHARACTERISTICS_REQUEST:
-                processResourceCharacteristicsRequest(ev);
-                break;
+        case CloudSimTags.RESOURCE_CHARACTERISTICS_REQUEST:
+            processResourceCharacteristicsRequest(ev);
+            break;
             // Resource characteristics answer
-            case CloudSimTags.RESOURCE_CHARACTERISTICS:
-                processResourceCharacteristics(ev);
-                break;
+        case CloudSimTags.RESOURCE_CHARACTERISTICS:
+            processResourceCharacteristics(ev);
+            break;
             // VM Creation answer
-            case CloudSimTags.VM_CREATE_ACK:
-                processVmCreate(ev);
-                break;
+        case CloudSimTags.VM_CREATE_ACK:
+            processVmCreate(ev);
+            break;
             // A finished cloudlet returned
-            case CloudSimTags.CLOUDLET_CHECK:
-                processCloudletReturn(ev);
-                break;
-            case CloudSimTags.CLOUDLET_RETURN:
-                processCloudletReturn(ev);
-                break;
+        case CloudSimTags.CLOUDLET_CHECK:
+            processCloudletReturn(ev);
+            break;
+        case CloudSimTags.CLOUDLET_RETURN:
+            processCloudletReturn(ev);
+            break;
             // if the simulation finishes
-            case CloudSimTags.END_OF_SIMULATION:
-                shutdownEntity();
-                break;
-            case CloudSimTags.CLOUDLET_SUBMIT:
-                processCloudletSubmit(ev);
-                break;
+        case CloudSimTags.END_OF_SIMULATION:
+            shutdownEntity();
+            break;
+        case CloudSimTags.CLOUDLET_SUBMIT:
+            processCloudletSubmit(ev);
+            break;
 
-            case CloudSimTags.CLOUDLET_UPDATE:
-                processCloudletUpdate(ev);
-                break;
+        case CloudSimTags.CLOUDLET_UPDATE:
+            processCloudletUpdate(ev);
+            break;
             // other unknown tags are processed by this method
-            default:
-                processOtherEvent(ev);
-                break;
+        default:
+            processOtherEvent(ev);
+            break;
         }
     }
 
@@ -147,30 +147,30 @@ public class WorkflowScheduler extends DatacenterBroker {
         //Parameters.java
         switch (name) {
             //by default it is Static
-            case FCFS:
-                algorithm = new FCFSSchedulingAlgorithm();
-                break;
-            case MINMIN:
-                algorithm = new MinMinSchedulingAlgorithm();
-                break;
-            case MAXMIN:
-                algorithm = new MaxMinSchedulingAlgorithm();
-                break;
-            case MCT:
-                algorithm = new MCTSchedulingAlgorithm();
-                break;
-            case DATA:
-                algorithm = new DataAwareSchedulingAlgorithm();
-                break;
-            case STATIC:
-                algorithm = new StaticSchedulingAlgorithm();
-                break;
-            case ROUNDROBIN:
-                algorithm = new RoundRobinSchedulingAlgorithm();
-                break;
-            default:
-                algorithm = new StaticSchedulingAlgorithm();
-                break;
+        case FCFS:
+            algorithm = new FCFSSchedulingAlgorithm();
+            break;
+        case MINMIN:
+            algorithm = new MinMinSchedulingAlgorithm();
+            break;
+        case MAXMIN:
+            algorithm = new MaxMinSchedulingAlgorithm();
+            break;
+        case MCT:
+            algorithm = new MCTSchedulingAlgorithm();
+            break;
+        case DATA:
+            algorithm = new DataAwareSchedulingAlgorithm();
+            break;
+        case STATIC:
+            algorithm = new StaticSchedulingAlgorithm();
+            break;
+        case ROUNDROBIN:
+            algorithm = new RoundRobinSchedulingAlgorithm();
+            break;
+        default:
+            algorithm = new StaticSchedulingAlgorithm();
+            break;
 
         }
 
@@ -201,12 +201,12 @@ public class WorkflowScheduler extends DatacenterBroker {
                 getVmsCreatedList().add(VmList.getById(getVmList(), vmId));
 
                 Log.printLine(CloudSim.clock() + ": " + getName() + ": VM #" + vmId
-                        + " has been created in Datacenter #" + datacenterId + ", Host #"
-                        + VmList.getById(getVmsCreatedList(), vmId).getHost().getId());
+                              + " has been created in Datacenter #" + datacenterId + ", Host #"
+                              + VmList.getById(getVmsCreatedList(), vmId).getHost().getId());
             }
         } else {
             Log.printLine(CloudSim.clock() + ": " + getName() + ": Creation of VM #" + vmId
-                    + " failed in Datacenter #" + datacenterId);
+                          + " failed in Datacenter #" + datacenterId);
         }
 
         incrementVmsAcks();
@@ -230,7 +230,7 @@ public class WorkflowScheduler extends DatacenterBroker {
                     submitCloudlets();
                 } else { // no vms created. abort
                     Log.printLine(CloudSim.clock() + ": " + getName()
-                            + ": none of the required VMs could be created. Aborting");
+                                  + ": none of the required VMs could be created. Aborting");
                     finishExecution();
                 }
             }
@@ -399,7 +399,7 @@ public class WorkflowScheduler extends DatacenterBroker {
         setDatacenterCharacteristicsList(new HashMap<Integer, DatacenterCharacteristics>());
 
         Log.printLine(CloudSim.clock() + ": " + getName() + ": Cloud Resource List received with "
-                + getDatacenterIdsList().size() + " resource(s)");
+                      + getDatacenterIdsList().size() + " resource(s)");
 
         for (Integer datacenterId : getDatacenterIdsList()) {
             sendNow(datacenterId, CloudSimTags.RESOURCE_CHARACTERISTICS, getId());

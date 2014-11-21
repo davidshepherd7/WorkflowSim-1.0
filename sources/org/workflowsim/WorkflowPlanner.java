@@ -134,22 +134,22 @@ public class WorkflowPlanner extends SimEntity {
     @Override
     public void processEvent(SimEvent ev) {
         switch (ev.getTag()) {
-            case CloudSimTags.START_SIMULATION:
-                getWorkflowParser().parse();
-                setTaskList(getWorkflowParser().getTaskList());
+        case CloudSimTags.START_SIMULATION:
+            getWorkflowParser().parse();
+            setTaskList(getWorkflowParser().getTaskList());
 
-                processPlanning();
+            processPlanning();
 
-                processImpactFactors(getTaskList());
-                sendNow(getClusteringEngineId(), CloudSimTags.JOB_SUBMIT, getTaskList());
-                break;
-            case CloudSimTags.END_OF_SIMULATION:
-                shutdownEntity();
-                break;
+            processImpactFactors(getTaskList());
+            sendNow(getClusteringEngineId(), CloudSimTags.JOB_SUBMIT, getTaskList());
+            break;
+        case CloudSimTags.END_OF_SIMULATION:
+            shutdownEntity();
+            break;
             // other unknown tags are processed by this method
-            default:
-                processOtherEvent(ev);
-                break;
+        default:
+            processOtherEvent(ev);
+            break;
         }
     }
 
@@ -158,7 +158,7 @@ public class WorkflowPlanner extends SimEntity {
             return;
         }
         BasePlanningAlgorithm planner = getPlanningAlgorithm(Parameters.getPlanningAlgorithm());
-        
+
         planner.setTaskList(getTaskList());
         planner.setVmList(getWorkflowEngine().getAllVmList());
 
@@ -183,21 +183,21 @@ public class WorkflowPlanner extends SimEntity {
         //Parameters.java
         switch (name) {
             //by default it is FCFS_SCH
-            case INVALID:
-                planner = null;
-                break;
-            case RANDOM:
-                planner = new RandomPlanningAlgorithm();
-                break;
-            case HEFT:
-                planner = new HEFTPlanningAlgorithm();
-                break;
-            case DHEFT:
-                planner = new DHEFTPlanningAlgorithm();
-                break;
-            default:
-                planner = null;
-                break;
+        case INVALID:
+            planner = null;
+            break;
+        case RANDOM:
+            planner = new RandomPlanningAlgorithm();
+            break;
+        case HEFT:
+            planner = new HEFTPlanningAlgorithm();
+            break;
+        case DHEFT:
+            planner = new DHEFTPlanningAlgorithm();
+            break;
+        default:
+            planner = null;
+            break;
 
         }
 
@@ -256,7 +256,7 @@ public class WorkflowPlanner extends SimEntity {
         }
 
         Log.printLine(getName() + ".processOtherEvent(): "
-                + "Error - event unknown by this DatacenterBroker.");
+                      + "Error - event unknown by this DatacenterBroker.");
     }
 
     /**

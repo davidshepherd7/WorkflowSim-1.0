@@ -53,7 +53,7 @@ public class FaultTolerantClusteringExample3 extends FaultTolerantClusteringExam
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -94,11 +94,11 @@ public class FaultTolerantClusteringExample3 extends FaultTolerantClusteringExam
             for (int level = 0; level < maxLevel; level++) {
                 /*
                  * For simplicity, set the task failure rate of each level to be 0.1. Which means 10%
-                 * of submitted tasks will fail. It doesn't have to be the same task 
-                 * failure rate at each level. 
+                 * of submitted tasks will fail. It doesn't have to be the same task
+                 * failure rate at each level.
                  */
                 DistributionGenerator generator = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL,
-                        100, 1.0, 30, 300, 0.78);
+                                                                            100, 1.0, 30, 300, 0.78);
                 for(int vmId = 0; vmId < vmNum; vmId++){
                     failureGenerators[vmId][level] = generator;
                 }
@@ -131,8 +131,8 @@ public class FaultTolerantClusteringExample3 extends FaultTolerantClusteringExam
              */
             FailureParameters.init(ftc_method, ftc_monitor, ftc_failure, failureGenerators);
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             FailureMonitor.init();
@@ -184,7 +184,7 @@ public class FaultTolerantClusteringExample3 extends FaultTolerantClusteringExam
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

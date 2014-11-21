@@ -90,7 +90,7 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -102,7 +102,7 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
 
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
@@ -110,10 +110,10 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.SHARED;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -124,10 +124,10 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
-            
+
             // before creating any entities.
             int num_user = 1;   // number of grid users
             Calendar calendar = Calendar.getInstance();
@@ -148,8 +148,8 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
              */
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
-             * Create two list of VMs. The trick is that make sure all vmId is unique so we need to 
-             * index vm from a base (in this case Parameters.getVmNum/2 for the second vmlist1). 
+             * Create two list of VMs. The trick is that make sure all vmId is unique so we need to
+             * index vm from a base (in this case Parameters.getVmNum/2 for the second vmlist1).
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum() / 2 , 0);
             List<CondorVM> vmlist1 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum() / 2 , Parameters.getVmNum() / 2);
@@ -164,7 +164,7 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
              * Binds the data centers with the scheduler id.
              * This scheduler controls two data centers. Make sure your data center is not very big otherwise
              * all the vms will be allocated to the first available data center
-             * In the future, the vm allocation algorithm should be improved. 
+             * In the future, the vm allocation algorithm should be improved.
              */
             wfEngine.bindSchedulerDatacenter(datacenter0.getId(), 0);
             wfEngine.bindSchedulerDatacenter(datacenter1.getId(), 0);
@@ -180,7 +180,7 @@ public class WorkflowSimMultipleClusterExample1 extends WorkflowSimBasicExample1
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -196,11 +196,11 @@ throw new RuntimeException(e);
         //    a Machine.
         //
         // Here is the trick to use multiple data centers in one broker. Broker will first
-        // allocate all vms to the first datacenter and if there is no enough resource then it will allocate 
-        // the failed vms to the next available datacenter. The trick is make sure your datacenter is not 
-        // very big so that the broker will distribute them. 
+        // allocate all vms to the first datacenter and if there is no enough resource then it will allocate
+        // the failed vms to the next available datacenter. The trick is make sure your datacenter is not
+        // very big so that the broker will distribute them.
         // In a future work, vm scheduling algorithms should be done
-        
+
         //
         for (int i = 1; i <= 3; i++) {
             List<Pe> peList1 = new ArrayList<Pe>();
@@ -215,13 +215,13 @@ throw new RuntimeException(e);
             long storage = 1000000; //host storage
             int bw = 10000;
             hostList.add(
-                    new Host(
-                    hostId,
-                    new RamProvisionerSimple(ram),
-                    new BwProvisionerSimple(bw),
-                    storage,
-                    peList1,
-                    new VmSchedulerTimeShared(peList1))); // This is our first machine
+                         new Host(
+                                  hostId,
+                                  new RamProvisionerSimple(ram),
+                                  new BwProvisionerSimple(bw),
+                                  storage,
+                                  peList1,
+                                  new VmSchedulerTimeShared(peList1))); // This is our first machine
             hostId++;
 
         }
@@ -235,15 +235,15 @@ throw new RuntimeException(e);
         String vmm = "Xen";
         double time_zone = 10.0;         // time zone this resource located
         double cost = 3.0;              // the cost of using processing in this resource
-        double costPerMem = 0.05;		// the cost of using memory in this resource
-        double costPerStorage = 0.1;	// the cost of using storage in this resource
-        double costPerBw = 0.1;			// the cost of using bw in this resource
-        LinkedList<Storage> storageList = new LinkedList<Storage>();	//we are not adding SAN devices by now
+        double costPerMem = 0.05;               // the cost of using memory in this resource
+        double costPerStorage = 0.1;    // the cost of using storage in this resource
+        double costPerBw = 0.1;                 // the cost of using bw in this resource
+        LinkedList<Storage> storageList = new LinkedList<Storage>();    //we are not adding SAN devices by now
         WorkflowDatacenter datacenter = null;
 
 
         DatacenterCharacteristics characteristics = new DatacenterCharacteristics(
-                arch, os, vmm, hostList, time_zone, cost, costPerMem, costPerStorage, costPerBw);
+                                                                                  arch, os, vmm, hostList, time_zone, cost, costPerMem, costPerStorage, costPerBw);
 
 
         // 6. Finally, we need to create a cluster storage object.
@@ -272,7 +272,7 @@ throw new RuntimeException(e);
             }
             // The bandwidth within a data center
             s1.setBandwidth("local", intraBandwidth);
-            // The bandwidth to the source site 
+            // The bandwidth to the source site
             s1.setBandwidth("source", interBandwidth);
             storageList.add(s1);
             datacenter = new WorkflowDatacenter(name, characteristics, new VmAllocationPolicySimple(hostList), storageList, 0);

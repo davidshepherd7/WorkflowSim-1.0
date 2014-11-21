@@ -79,9 +79,9 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
      */
     public static void main(String[] args) {
 
-        
+
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -90,10 +90,10 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
              */
             int vmNum = 5;//number of vms;
 
-            String daxPath = "config/dax/Montage_100.xml";            
+            String daxPath = "config/dax/Montage_100.xml";
 
             /**
-             * Since we are using HEFT planning algorithm, the scheduling algorithm should be static 
+             * Since we are using HEFT planning algorithm, the scheduling algorithm should be static
              * such that the scheduler would not override the result of the planner
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.STATIC;
@@ -101,10 +101,10 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.LOCAL;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -115,8 +115,8 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -165,7 +165,7 @@ public class HEFTPlanningAlgorithmExample1 extends WorkflowSimBasicExample1{
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

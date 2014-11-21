@@ -36,7 +36,7 @@ import org.workflowsim.utils.ReplicaCatalog;
 
 /**
  * This BalancedClusteringExample1 is using balanced horizontal clustering or more specifically
- * using horizontal runtime balancing. 
+ * using horizontal runtime balancing.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -52,49 +52,49 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
     public static void main(String[] args) {
 
 
-       try {
-           
-           /**
-            * delete in the future
-            * 
-            */
-           String code = "i";
-           String daxPath = "config/dax/Montage_100.xml";
-           double c_delay = 0.0, q_delay = 0.0, e_delay = 0.0, p_delay = 0.0;
-           int interval = 0;
-           
-           for(int i = 0; i < args.length; i ++){
-               char key = args[i].charAt(1);
-               switch(key){
-                   case 'c':
-                       code = args[++i];
-                       break;
-                   case 'd':
-                       daxPath = args[++i];
-                       break;
-                   case 'l':
-                       c_delay = Double.parseDouble(args[++i]);
-                       break;
-                   case 'q':
-                       q_delay = Double.parseDouble(args[++i]);
-                       break;
-                   case 'e':
-                       e_delay = Double.parseDouble(args[++i]);
-                       break;
-                   case 'p':
-                       p_delay = Double.parseDouble(args[++i]);
-                       break;
-                   case 'i':
-                       interval = Integer.parseInt(args[++i]);
-                       break;
-               }
-           }
-           
-           /**
-            * Check overheads
-            */
-           
-            // First step: Initialize the WorkflowSim package. 
+        try {
+
+            /**
+             * delete in the future
+             *
+             */
+            String code = "i";
+            String daxPath = "config/dax/Montage_100.xml";
+            double c_delay = 0.0, q_delay = 0.0, e_delay = 0.0, p_delay = 0.0;
+            int interval = 0;
+
+            for(int i = 0; i < args.length; i ++){
+                char key = args[i].charAt(1);
+                switch(key){
+                case 'c':
+                    code = args[++i];
+                    break;
+                case 'd':
+                    daxPath = args[++i];
+                    break;
+                case 'l':
+                    c_delay = Double.parseDouble(args[++i]);
+                    break;
+                case 'q':
+                    q_delay = Double.parseDouble(args[++i]);
+                    break;
+                case 'e':
+                    e_delay = Double.parseDouble(args[++i]);
+                    break;
+                case 'p':
+                    p_delay = Double.parseDouble(args[++i]);
+                    break;
+                case 'i':
+                    interval = Integer.parseInt(args[++i]);
+                    break;
+                }
+            }
+
+            /**
+             * Check overheads
+             */
+
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -105,7 +105,7 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
 
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.DATA;
@@ -121,30 +121,30 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
             Map<Integer, DistributionGenerator> postscriptDelay = new HashMap();
             Map<Integer, DistributionGenerator> engineDelay = new HashMap();
             /**
-             * application has at most 11 horizontal levels 
+             * application has at most 11 horizontal levels
              */
             int maxLevel = 11;
             for (int level = 0; level < maxLevel; level++ ){
                 if(c_delay == 0.0){
-                    
+
                 }else{
                     DistributionGenerator cluster_delay = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, c_delay, 1.0);
                     clusteringDelay.put(level, cluster_delay);
                 }
                 if(q_delay == 0.0){
-                    
+
                 }else{
                     DistributionGenerator queue_delay = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, q_delay, 1.0);
                     queueDelay.put(level, queue_delay);
                 }
                 if(p_delay == 0.0){
-                    
+
                 }else{
                     DistributionGenerator postscript_delay = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, p_delay, 1.0);
                     postscriptDelay.put(level, postscript_delay);
                 }
                 if(e_delay == 0.0){
-                    
+
                 }else{
                     DistributionGenerator engine_delay = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, e_delay, 1.0);
                     engineDelay.put(level, engine_delay);
@@ -153,12 +153,12 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
             // Add clustering delay to the overhead parameters
             /**
              * Map<Integer, Double> wed_delay,
-            Map<Integer, Double> queue_delay,
-            Map<Integer, Double> post_delay,
-            Map<Integer, Double> cluster_delay,
-             */
+             Map<Integer, Double> queue_delay,
+             Map<Integer, Double> post_delay,
+             Map<Integer, Double> cluster_delay,
+            */
             OverheadParameters op = new OverheadParameters(interval, engineDelay, queueDelay, postscriptDelay, clusteringDelay, 0);;
-            
+
             /**
              * Balanced Clustering
              */
@@ -170,14 +170,14 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
              * h: Horizontal Random Balancing , the original horizontal clustering
              */
             ClusteringParameters cp = new ClusteringParameters(20, 0, method, code);
-            
+
 
             /**
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -200,7 +200,7 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -222,11 +222,11 @@ public class BalancedClusteringExample1 extends HorizontalClusteringExample1 {
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
-    }    
+    }
 }

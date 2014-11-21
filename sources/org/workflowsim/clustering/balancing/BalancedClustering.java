@@ -149,9 +149,9 @@ public class BalancedClustering extends BasicClustering {
              */
             double dv = new DistanceVariance().getMetric(list);
             Log.printLine("HRV " + depth + " " + list.size()
-                    + " " + hrv + "\nIFV " + depth + " "
-                    + list.size() + " " + ifv + "\nPRV " + depth
-                    + " " + list.size() + " " + prv + "\nDV " + depth + " " + list.size() + " " + dv);
+                          + " " + hrv + "\nIFV " + depth + " "
+                          + list.size() + " " + ifv + "\nPRV " + depth
+                          + " " + list.size() + " " + prv + "\nDV " + depth + " " + list.size() + " " + dv);
 
         }
     }
@@ -162,7 +162,7 @@ public class BalancedClustering extends BasicClustering {
      * @return tasks list per level
      */
     public Map<Integer, ArrayList<TaskSet>> getCurrentTaskSetAtLevels() {
-        //makesure it is updated 
+        //makesure it is updated
 
         //makesure Taskset.hasChecked is false
         Map map = new HashMap<Integer, ArrayList<TaskSet>>();
@@ -323,43 +323,43 @@ public class BalancedClustering extends BasicClustering {
             for (char c : code.toCharArray()) {
 
                 switch (c) {
-                    case 'v':
+                case 'v':
 
-                        //verticalClustering();
-                        VerticalBalancing v = new VerticalBalancing(map, this.mTask2TaskSet, this.clusterNum);
-                        v.run();
-                        break;
-                    case 'c':
-                        //childAwareHorizontalClustering();
-                        ChildAwareHorizontalClustering ch =
-                                new ChildAwareHorizontalClustering(map, this.mTask2TaskSet, this.clusterNum);
-                        ch.run();
-                        updateTaskSetDependencies();
-                        break;
-                    case 'r':
-                        //horizontalRuntimeBalancing();
-                        HorizontalRuntimeBalancing r =
-                                new HorizontalRuntimeBalancing(map, this.mTask2TaskSet, this.clusterNum);
-                        r.run();
-                        updateTaskSetDependencies();
-                        break;
-                    case 'i':
-                        HorizontalImpactBalancing i =
-                                new HorizontalImpactBalancing(map, this.mTask2TaskSet, this.clusterNum);
-                        i.run();
-                        break;
-                    case 'd':
-                        HorizontalDistanceBalancing d =
-                                new HorizontalDistanceBalancing(map, this.mTask2TaskSet, this.clusterNum);
-                        d.run();
-                        break;
-                    case 'h':
-                        HorizontalRandomClustering h =
-                                new HorizontalRandomClustering(map, this.mTask2TaskSet, this.clusterNum);
-                        h.run();
-                        break;
-                    default:
-                        break;
+                    //verticalClustering();
+                    VerticalBalancing v = new VerticalBalancing(map, this.mTask2TaskSet, this.clusterNum);
+                    v.run();
+                    break;
+                case 'c':
+                    //childAwareHorizontalClustering();
+                    ChildAwareHorizontalClustering ch =
+                        new ChildAwareHorizontalClustering(map, this.mTask2TaskSet, this.clusterNum);
+                    ch.run();
+                    updateTaskSetDependencies();
+                    break;
+                case 'r':
+                    //horizontalRuntimeBalancing();
+                    HorizontalRuntimeBalancing r =
+                        new HorizontalRuntimeBalancing(map, this.mTask2TaskSet, this.clusterNum);
+                    r.run();
+                    updateTaskSetDependencies();
+                    break;
+                case 'i':
+                    HorizontalImpactBalancing i =
+                        new HorizontalImpactBalancing(map, this.mTask2TaskSet, this.clusterNum);
+                    i.run();
+                    break;
+                case 'd':
+                    HorizontalDistanceBalancing d =
+                        new HorizontalDistanceBalancing(map, this.mTask2TaskSet, this.clusterNum);
+                    d.run();
+                    break;
+                case 'h':
+                    HorizontalRandomClustering h =
+                        new HorizontalRandomClustering(map, this.mTask2TaskSet, this.clusterNum);
+                    h.run();
+                    break;
+                default:
+                    break;
                 }
             }
             printMetrics();

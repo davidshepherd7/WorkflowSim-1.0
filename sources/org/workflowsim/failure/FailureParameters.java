@@ -1,19 +1,19 @@
 /*
- * 
+ *
  *   Copyright 2012-2013 University Of Southern California
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing,
  *   software distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  */
 package org.workflowsim.failure;
 
@@ -28,7 +28,7 @@ import org.workflowsim.utils.DistributionGenerator.DistributionFamily;
 public class FailureParameters {
 
     /**
-     * Task Failure Rate 
+     * Task Failure Rate
      * first index is vmId ;second index is task depth
      * If FAILURE_JOB is specified first index is 0 only
      * If FAILURE_VM is specified second index is 0 only
@@ -73,9 +73,9 @@ public class FailureParameters {
      * Fault Tolerant Clustering failure generation mode
      */
     private static FTCFailure failureMode = FTCFailure.FAILURE_NONE;
-    
+
     /**
-     * The distribution of the failure 
+     * The distribution of the failure
      */
     private static DistributionFamily distribution = DistributionFamily.WEIBULL;
     /**
@@ -84,17 +84,17 @@ public class FailureParameters {
     private static int INVALID = -1;
 
     /**
-     * 
+     *
      *  Init a FailureParameters
-     * 
+     *
      * @param fMethod Fault Tolerant Clustering Algorithm
      * @param monitor Fault Tolerant Clustering Monitor mode
      * @param failure Failure generator mode
      * @param failureRate Task Failure Rate (alpha)
      * @param failureShape Task Failure Shape (beta)
      */
-    public static void init(FTCluteringAlgorithm fMethod, FTCMonitor monitor, 
-            FTCFailure failure, DistributionGenerator[][] failureGenerators) {
+    public static void init(FTCluteringAlgorithm fMethod, FTCMonitor monitor,
+                            FTCFailure failure, DistributionGenerator[][] failureGenerators) {
         FTClusteringAlgorithm = fMethod;
         monitorMode = monitor;
         failureMode = failure;
@@ -102,13 +102,13 @@ public class FailureParameters {
     }
 
     /**
-     * 
+     *
      * Init a FailureParameters with distibution
-     * @param dist 
+     * @param dist
      */
-    public static void init(FTCluteringAlgorithm fMethod, FTCMonitor monitor, 
-            FTCFailure failure, DistributionGenerator[][] failureGenerators, 
-            DistributionFamily dist) {
+    public static void init(FTCluteringAlgorithm fMethod, FTCMonitor monitor,
+                            FTCFailure failure, DistributionGenerator[][] failureGenerators,
+                            DistributionFamily dist) {
         distribution = dist;
         init(fMethod, monitor, failure, failureGenerators);
     }
@@ -125,7 +125,7 @@ public class FailureParameters {
         }
         return generators;
     }
-    
+
     /**
      * Gets the max first index in alpha
      * @return max
@@ -137,7 +137,7 @@ public class FailureParameters {
         }
         return generators.length;
     }
-    
+
     /**
      * Gets the max second Index in alpha
      * @return max
@@ -151,7 +151,7 @@ public class FailureParameters {
         }
         return generators[0].length;
     }
-    
+
 
     /**
      * Gets the task failure rate
@@ -162,7 +162,7 @@ public class FailureParameters {
     public static DistributionGenerator getGenerator(int vmIndex, int taskDepth) {
         return generators[vmIndex][taskDepth];
     }
-    
+
     /**
      * Gets the failure generation mode
      *
@@ -195,7 +195,7 @@ public class FailureParameters {
     public static FTCluteringAlgorithm getFTCluteringAlgorithm() {
         return FTClusteringAlgorithm;
     }
-    
+
     /**
      * Gets the failure distribution
      * @return distribution

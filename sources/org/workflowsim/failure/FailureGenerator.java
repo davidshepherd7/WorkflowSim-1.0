@@ -37,8 +37,8 @@ import org.workflowsim.utils.Parameters;
 public class FailureGenerator {
 
     /**
-     * FailureGenerator doubles the size of distribution samples each time 
-     * but only limits to maxFailureSizeExtension. Otherwise your failure rate 
+     * FailureGenerator doubles the size of distribution samples each time
+     * but only limits to maxFailureSizeExtension. Otherwise your failure rate
      * is too high for this workflow
      */
     private static final int maxFailureSizeExtension = 50;
@@ -50,21 +50,21 @@ public class FailureGenerator {
     protected static RealDistribution getDistribution(double alpha, double beta) {
         RealDistribution distribution = null;
         switch (FailureParameters.getFailureDistribution()) {
-            case LOGNORMAL:
-                distribution = new LogNormalDistribution(1.0 / alpha, beta);
-                break;
-            case WEIBULL:
-                distribution = new WeibullDistribution(beta, 1.0 / alpha);
-                break;
-            case GAMMA:
-                distribution = new GammaDistribution(beta, 1.0 / alpha);
-                break;
-            case NORMAL:
-                //beta is the std, 1.0/alpha is the mean
-                distribution = new NormalDistribution(1.0 / alpha, beta);
-                break;
-            default:
-                break;
+        case LOGNORMAL:
+            distribution = new LogNormalDistribution(1.0 / alpha, beta);
+            break;
+        case WEIBULL:
+            distribution = new WeibullDistribution(beta, 1.0 / alpha);
+            break;
+        case GAMMA:
+            distribution = new GammaDistribution(beta, 1.0 / alpha);
+            break;
+        case NORMAL:
+            //beta is the std, 1.0/alpha is the mean
+            distribution = new NormalDistribution(1.0 / alpha, beta);
+            break;
+        default:
+            break;
         }
         return distribution;
     }
@@ -88,37 +88,37 @@ public class FailureGenerator {
             /**
              * Every task follows the same distribution.
              */
-            case FAILURE_ALL:
-                generator = FailureParameters.getGenerator(0, 0);
-                break;
+        case FAILURE_ALL:
+            generator = FailureParameters.getGenerator(0, 0);
+            break;
             /**
              * Generate failures based on the type of job.
              */
-            case FAILURE_JOB:
-                generator = FailureParameters.getGenerator(0, task.getDepth());
-                break;
+        case FAILURE_JOB:
+            generator = FailureParameters.getGenerator(0, task.getDepth());
+            break;
             /**
              * Generate failures based on the index of vm.
              */
-            case FAILURE_VM:
-                generator = FailureParameters.getGenerator(vmId, 0);
-                break;
+        case FAILURE_VM:
+            generator = FailureParameters.getGenerator(vmId, 0);
+            break;
             /**
              * Generator failures based on vmId and level both
              */
-            case FAILURE_VM_JOB:
-                generator = FailureParameters.getGenerator(vmId, task.getDepth());
-                break;
-            default:
-                return false;
+        case FAILURE_VM_JOB:
+            generator = FailureParameters.getGenerator(vmId, task.getDepth());
+            break;
+        default:
+            return false;
         }
-        
+
         double start = task.getExecStartTime();
         double end = task.getTaskFinishTime();
-        
-        
+
+
         double[] samples = generator.getCumulativeSamples();
-        
+
         while (samples[samples.length - 1] < start) {
             generator.extendSamples();
             samples = generator.getCumulativeSamples();

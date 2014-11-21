@@ -35,8 +35,8 @@ import org.workflowsim.utils.ReplicaCatalog;
 
 /**
  * This HorizontalClusteringExample3 is similar to HorizontalClusteringExample2 except
- * we have scheduling overheads set in this case. We can see how clustering improves 
- * the runtime if we have scheduling overheads (workflow engine delay, queue delay, 
+ * we have scheduling overheads set in this case. We can see how clustering improves
+ * the runtime if we have scheduling overheads (workflow engine delay, queue delay,
  * postscript delay)
  *
  * @author Weiwei Chen
@@ -53,8 +53,8 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -63,16 +63,16 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
              */
             int vmNum = 20;//number of vms;
             String daxPath = "config/dax/Montage_100.xml";
-   
+
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
             Parameters.PlanningAlgorithm pln_method = Parameters.PlanningAlgorithm.INVALID;
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.SHARED;
             /**
-             * Montage has at most 11 horizontal levels 
+             * Montage has at most 11 horizontal levels
              */
             int maxLevel = 11;
             /**
@@ -84,11 +84,11 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
             Map<Integer, DistributionGenerator> postscriptDelay = new HashMap();
             Map<Integer, DistributionGenerator> engineDelay = new HashMap();
             /**
-             * Interval is the period of workflow engine. For simplicity we set it to be 5, 
-             * which is the default value in Condor, which also means we release every 5 
-             * jobs at a time and each period takes a workflow engine delay. 
+             * Interval is the period of workflow engine. For simplicity we set it to be 5,
+             * which is the default value in Condor, which also means we release every 5
+             * jobs at a time and each period takes a workflow engine delay.
              */
-            int interval = 5; 
+            int interval = 5;
             for (int level = 0; level < maxLevel; level++ ){
                 DistributionGenerator cluster_delay = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, 1.0, 1.0);
                 clusteringDelay.put(level, cluster_delay);
@@ -101,7 +101,7 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
             }
             // Add clustering delay to the overhead parameters
             OverheadParameters op = new OverheadParameters(interval, engineDelay, queueDelay, postscriptDelay, clusteringDelay, 0);;
-            
+
             /**
              * Horizontal Clustering
              */
@@ -114,14 +114,14 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
              * In this case, we specify the clusters.num = 20, which means we have 20 jobs per level
              */
             ClusteringParameters cp = new ClusteringParameters(20, 0, method, null);
-            
+
 
             /**
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -144,7 +144,7 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -166,11 +166,11 @@ public class HorizontalClusteringExample3 extends HorizontalClusteringExample1{
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 

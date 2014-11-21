@@ -90,16 +90,16 @@ public class FailureMonitor {
         double t = record.length;
         double a = 0.0;
         switch (FailureParameters.getMonitorMode()) {
-            case MONITOR_JOB:
+        case MONITOR_JOB:
             /**
              * not supported *
              */
-            case MONITOR_ALL:
-                a = analyze(0, record.depth);
-                break;
-            case MONITOR_VM:
-                a = analyze(0, record.vmId);
-                break;
+        case MONITOR_ALL:
+            a = analyze(0, record.depth);
+            break;
+        case MONITOR_VM:
+            a = analyze(0, record.vmId);
+            break;
         }
 
         if (a <= 0.0) {
@@ -128,24 +128,24 @@ public class FailureMonitor {
         }
 
         switch (FailureParameters.getMonitorMode()) {
-            case MONITOR_VM:
+        case MONITOR_VM:
 
-                if (!vm2record.containsKey(record.vmId)) {
-                    vm2record.put(record.vmId, new ArrayList<FailureRecord>());
-                }
-                vm2record.get(record.vmId).add(record);
+            if (!vm2record.containsKey(record.vmId)) {
+                vm2record.put(record.vmId, new ArrayList<FailureRecord>());
+            }
+            vm2record.get(record.vmId).add(record);
 
-                break;
-            case MONITOR_JOB:
+            break;
+        case MONITOR_JOB:
 
-                if (!type2record.containsKey(record.depth)) {
-                    type2record.put(record.depth, new ArrayList<FailureRecord>());
-                }
-                type2record.get(record.depth).add(record);
+            if (!type2record.containsKey(record.depth)) {
+                type2record.put(record.depth, new ArrayList<FailureRecord>());
+            }
+            type2record.get(record.depth).add(record);
 
-                break;
-            case MONITOR_NONE:
-                break;
+            break;
+        case MONITOR_NONE:
+            break;
         }
 
         recordList.add(record);
@@ -166,37 +166,37 @@ public class FailureMonitor {
         int sumFailures = 0;
         int sumJobs = 0;
         switch (FailureParameters.getMonitorMode()) {
-            case MONITOR_ALL:
+        case MONITOR_ALL:
 
-                for (FailureRecord record : recordList) {
+            for (FailureRecord record : recordList) {
+                sumFailures += record.failedTasksNum;
+                sumJobs += record.allTaskNum;
+            }
+
+            break;
+
+        case MONITOR_JOB:
+
+            if (type2record.containsKey(type)) {
+                for (FailureRecord record : type2record.get(type)) {
+
                     sumFailures += record.failedTasksNum;
                     sumJobs += record.allTaskNum;
                 }
+            }
 
-                break;
+            break;
+        case MONITOR_VM:
 
-            case MONITOR_JOB:
+            if (vm2record.containsKey(type)) {
+                for (FailureRecord record : vm2record.get(type)) {
 
-                if (type2record.containsKey(type)) {
-                    for (FailureRecord record : type2record.get(type)) {
-
-                        sumFailures += record.failedTasksNum;
-                        sumJobs += record.allTaskNum;
-                    }
+                    sumFailures += record.failedTasksNum;
+                    sumJobs += record.allTaskNum;
                 }
+            }
 
-                break;
-            case MONITOR_VM:
-
-                if (vm2record.containsKey(type)) {
-                    for (FailureRecord record : vm2record.get(type)) {
-
-                        sumFailures += record.failedTasksNum;
-                        sumJobs += record.allTaskNum;
-                    }
-                }
-
-                break;
+            break;
         }
 
 

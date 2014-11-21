@@ -92,7 +92,7 @@ public class MinMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             for (int j = 0; j < vmSize; j++) {
                 Vm vm = getVmList().get(j);
                 if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
-                        && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
+                    && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
                     firstIdleVm = vm;
 
                 }

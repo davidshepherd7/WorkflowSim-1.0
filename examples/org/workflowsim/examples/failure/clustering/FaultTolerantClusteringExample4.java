@@ -44,7 +44,7 @@ import org.workflowsim.utils.ReplicaCatalog;
  */
 public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExample1{
 
-   
+
 
     ////////////////////////// STATIC METHODS ///////////////////////
     /**
@@ -54,8 +54,8 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -74,20 +74,20 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
             /**
              * MONITOR_JOB classifies failures based on the level of jobs; MONITOR_VM classifies failures
              * based on the vm id; MOINTOR_ALL does not do any classification; MONITOR_NONE does not record
-             * any failiure. 
+             * any failiure.
              */
             FailureParameters.FTCMonitor ftc_monitor = FailureParameters.FTCMonitor.MONITOR_VM;
             /**
-             *  Similar to FTCMonitor, FTCFailure controls the way how we generate failures. 
+             *  Similar to FTCMonitor, FTCFailure controls the way how we generate failures.
              */
             FailureParameters.FTCFailure ftc_failure = FailureParameters.FTCFailure.FAILURE_VM;
             /**
-             *  In this example, we have horizontal clustering and we use Dynamic Clustering. 
+             *  In this example, we have horizontal clustering and we use Dynamic Clustering.
              */
             FailureParameters.FTCluteringAlgorithm ftc_method = FailureParameters.FTCluteringAlgorithm.FTCLUSTERING_DR;
             /**
-             * Task failure rate for each level 
-             * 
+             * Task failure rate for each level
+             *
              */
             int maxLevel = 11;
             DistributionGenerator[][] failureGenerators = new DistributionGenerator[vmNum][maxLevel];
@@ -96,13 +96,13 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
              */
             for (int vmId = 0; vmId < vmNum; vmId++) {
                 DistributionGenerator generator = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL,
-                        100, 1.0, 30, 300, 0.78);
+                                                                            100, 1.0, 30, 300, 0.78);
                 for( int level = 0; level < maxLevel; level++){
                     failureGenerators[vmId][level] = generator;
                 }
             }
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
@@ -110,10 +110,10 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.SHARED;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -125,8 +125,8 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
              */
             FailureParameters.init(ftc_method, ftc_monitor, ftc_failure, failureGenerators);
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             FailureMonitor.init();
@@ -152,7 +152,7 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -174,12 +174,12 @@ public class FaultTolerantClusteringExample4 extends FaultTolerantClusteringExam
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
-    
+
 }

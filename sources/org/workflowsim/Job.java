@@ -31,7 +31,7 @@ import java.util.List;
 public class Job extends Task {
 
     /*
-     * The list of tasks a job has. It is the only difference between Job and Task. 
+     * The list of tasks a job has. It is the only difference between Job and Task.
      */
     private List<Task> taskList;
 
@@ -47,8 +47,8 @@ public class Job extends Task {
      * @post $none
      */
     public Job(
-            final int jobId,
-            final long jobLength) {
+               final int jobId,
+               final long jobLength) {
 
         super(jobId, jobLength);
         this.taskList = new ArrayList<Task>();

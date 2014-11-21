@@ -22,7 +22,7 @@ import org.cloudbus.cloudsim.Vm;
 
 /**
  * The base scheduler has implemented the basic features. Every other scheduling method
- * should extend from BaseSchedulingAlgorithm but should not directly use it. 
+ * should extend from BaseSchedulingAlgorithm but should not directly use it.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0

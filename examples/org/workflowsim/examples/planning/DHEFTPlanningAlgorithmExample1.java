@@ -46,7 +46,7 @@ import org.workflowsim.utils.ReplicaCatalog;
 public class DHEFTPlanningAlgorithmExample1 extends HEFTPlanningAlgorithmExample1 {
 
     ////////////////////////// STATIC METHODS ///////////////////////
-    
+
     /**
      * Creates main() to run this example This example has only one datacenter
      * and one storage
@@ -55,7 +55,7 @@ public class DHEFTPlanningAlgorithmExample1 extends HEFTPlanningAlgorithmExample
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -90,8 +90,8 @@ public class DHEFTPlanningAlgorithmExample1 extends HEFTPlanningAlgorithmExample
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -141,7 +141,7 @@ public class DHEFTPlanningAlgorithmExample1 extends HEFTPlanningAlgorithmExample
         } catch (Exception e) {
             e.printStackTrace();
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 }

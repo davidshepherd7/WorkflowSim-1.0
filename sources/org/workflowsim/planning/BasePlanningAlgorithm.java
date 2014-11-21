@@ -23,7 +23,7 @@ import org.cloudbus.cloudsim.Vm;
 
 /**
  * The base planner has implemented the basic features. Every other planning method
- * should extend from BasePlanningAlgorithm but should not directly use it. 
+ * should extend from BasePlanningAlgorithm but should not directly use it.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -97,7 +97,7 @@ public abstract class BasePlanningAlgorithm implements PlanningAlgorithmInterfac
     public List getDatacenterList(){
         return this.datacenterList;
     }
-    
+
     /**
      * Sets the datacenter list
      * @param list the datacenter list
@@ -105,11 +105,11 @@ public abstract class BasePlanningAlgorithm implements PlanningAlgorithmInterfac
     public void setDatacenterList(List list){
         this.datacenterList = list;
     }
-    
+
     /**
      * The main function
      */
     public abstract void run() throws Exception;
 
-    
+
 }

@@ -50,8 +50,8 @@ public class WorkflowSimBasicExample3 extends WorkflowSimBasicExample2{
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -62,25 +62,25 @@ public class WorkflowSimBasicExample3 extends WorkflowSimBasicExample2{
             String daxPath = "config/dax/Montage_100.xml";
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
-             * You only need a planning algorithm or a scheduling algorithm. The difference is explained 
-             * in github. 
+             * You only need a planning algorithm or a scheduling algorithm. The difference is explained
+             * in github.
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
             Parameters.PlanningAlgorithm pln_method = Parameters.PlanningAlgorithm.INVALID;
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.LOCAL;
-            
+
             /**
              * Set the cost model to be VM (the default is Datacenter
              */
             Parameters.setCostModel(Parameters.CostModel.VM);
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -90,10 +90,10 @@ public class WorkflowSimBasicExample3 extends WorkflowSimBasicExample2{
             /**
              * Initialize static parameters
              */
-            
+
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -116,7 +116,7 @@ public class WorkflowSimBasicExample3 extends WorkflowSimBasicExample2{
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -138,14 +138,14 @@ public class WorkflowSimBasicExample3 extends WorkflowSimBasicExample2{
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
-    
+
     protected static List<CondorVM> createVM(int userId, int vms) {
 
         //Creates a container to store VMs. This list is passed to the broker later
@@ -162,13 +162,13 @@ throw new RuntimeException(e);
         //create VMs
         CondorVM[] vm = new CondorVM[vms];
         double cost = 3.0;              // the cost of using processing in this resource
-        double costPerMem = 0.05;		// the cost of using memory in this resource
-        double costPerStorage = 0.1;	// the cost of using storage in this resource
-        double costPerBw = 0.1;			// the cost of using bw in this resource
+        double costPerMem = 0.05;               // the cost of using memory in this resource
+        double costPerStorage = 0.1;    // the cost of using storage in this resource
+        double costPerBw = 0.1;                 // the cost of using bw in this resource
         for (int i = 0; i < vms; i++) {
             double ratio = 1.0;
-            vm[i] = new CondorVM(i, userId, mips * ratio, pesNumber, ram, bw, size, vmm, 
-                    cost, costPerMem, costPerStorage, costPerBw, new CloudletSchedulerSpaceShared());
+            vm[i] = new CondorVM(i, userId, mips * ratio, pesNumber, ram, bw, size, vmm,
+                                 cost, costPerMem, costPerStorage, costPerBw, new CloudletSchedulerSpaceShared());
             list.add(vm[i]);
         }
 

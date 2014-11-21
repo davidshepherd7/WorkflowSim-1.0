@@ -59,7 +59,7 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -89,41 +89,41 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
             for (int i = 0; i < args.length; i++) {
                 char key = args[i].charAt(1);
                 switch (key) {
-                    case 'c':
-                        clustering = args[++i];
-                        break;
-                    case 'd':
-                        daxPath = args[++i];
-                        break;
-                    case 'b':
-                        t_scale = Double.parseDouble(args[++i]);
-                        break;
-                    case 'w':
-                        q_weight = Double.parseDouble(args[++i]);
-                        break;
-                    case 'q':
-                        q_scale = Double.parseDouble(args[++i]);
-                        break;
-                    case 's':
-                        q_shape = Double.parseDouble(args[++i]);
-                        break;
-                    case 'p':
-                        theta = Double.parseDouble(args[++i]);
-                        break;
-                    case 't':
-                        theta_weight = Double.parseDouble(args[++i]);
-                        break;
-                    case 'e':
-                        period = Double.parseDouble(args[++i]);
-                        break;
-                    case 'n':
-                        portion = Double.parseDouble(args[++i]);
-                        break;
+                case 'c':
+                    clustering = args[++i];
+                    break;
+                case 'd':
+                    daxPath = args[++i];
+                    break;
+                case 'b':
+                    t_scale = Double.parseDouble(args[++i]);
+                    break;
+                case 'w':
+                    q_weight = Double.parseDouble(args[++i]);
+                    break;
+                case 'q':
+                    q_scale = Double.parseDouble(args[++i]);
+                    break;
+                case 's':
+                    q_shape = Double.parseDouble(args[++i]);
+                    break;
+                case 'p':
+                    theta = Double.parseDouble(args[++i]);
+                    break;
+                case 't':
+                    theta_weight = Double.parseDouble(args[++i]);
+                    break;
+                case 'e':
+                    period = Double.parseDouble(args[++i]);
+                    break;
+                case 'n':
+                    portion = Double.parseDouble(args[++i]);
+                    break;
 
                 }
             }
             t_scale /= 10;
-  
+
 
             /**
              * Runtime Parameters
@@ -180,14 +180,14 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
             PeriodicalDistributionGenerator[][] failureGenerators = new PeriodicalDistributionGenerator[vmNum][maxLevel];
             //Don't make it smaller than 10 seconds, it has too many failures
             PeriodicalDistributionGenerator generator = new PeriodicalDistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL,
-                    theta, 0.78, theta_weight, theta_weight * theta, 0.78, signal);
+                                                                                            theta, 0.78, theta_weight, theta_weight * theta, 0.78, signal);
 
             for (int level = 0; level < maxLevel; level++) {
                 /*
-                 * 
+                 *
                  * For simplicity, set the task failure rate of each level to be 0.1. Which means 10%
-                 * of submitted tasks will fail. It doesn't have to be the same task 
-                 * failure rate at each level. 
+                 * of submitted tasks will fail. It doesn't have to be the same task
+                 * failure rate at each level.
                  */
                 for (int vmId = 0; vmId < vmNum; vmId++) {
                     failureGenerators[vmId][level] = generator;
@@ -214,8 +214,8 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
              * application has at most 11 horizontal levels
              */
             DistributionGenerator queue_delay = new DistributionGenerator(
-                    DistributionGenerator.DistributionFamily.GAMMA, q_scale, q_shape,
-                    q_weight, q_weight * q_scale, q_shape);
+                                                                          DistributionGenerator.DistributionFamily.GAMMA, q_scale, q_shape,
+                                                                          q_weight, q_weight * q_scale, q_shape);
             for (int level = 0; level < maxLevel; level++) {
                 queueDelay.put(level, queue_delay);
             }
@@ -229,8 +229,8 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
              */
             FailureParameters.init(ftc_method, ftc_monitor, ftc_failure, failureGenerators);
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             FailureMonitor.init();
@@ -283,7 +283,7 @@ public class FaultTolerantClusteringExample7 extends FaultTolerantClusteringExam
         } catch (Exception e) {
             e.printStackTrace();
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -301,7 +301,7 @@ throw new RuntimeException(e);
         Log.printLine();
         Log.printLine("========== OUTPUT ==========");
         Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
-                + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
+                      + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
 
         DecimalFormat dft = new DecimalFormat("###.##");
         for (int i = 0; i < size; i++) {
@@ -316,16 +316,16 @@ throw new RuntimeException(e);
                 Log.print("SUCCESS");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
             } else if (job.getCloudletStatus() == Cloudlet.FAILED) {
                 Log.print("FAILED");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
             }
         }
         return makespan;

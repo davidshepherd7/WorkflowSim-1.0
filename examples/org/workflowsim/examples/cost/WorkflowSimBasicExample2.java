@@ -35,8 +35,8 @@ import org.workflowsim.utils.ReplicaCatalog;
 
 /**
  * This WorkflowSimExample2 is different to WorkflowSimExample1 in that it shows cost
- * the cost= (communication cost + computation cost) = (data (both input and output) * 
- * unit cost of data + runtime * cpu cost) for each task 
+ * the cost= (communication cost + computation cost) = (data (both input and output) *
+ * unit cost of data + runtime * cpu cost) for each task
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -52,8 +52,8 @@ public class WorkflowSimBasicExample2 extends WorkflowSimBasicExample1{
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -64,20 +64,20 @@ public class WorkflowSimBasicExample2 extends WorkflowSimBasicExample1{
             String daxPath = "config/dax/Montage_100.xml";
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
-             * You only need a planning algorithm or a scheduling algorithm. The difference is explained 
-             * in github. 
+             * You only need a planning algorithm or a scheduling algorithm. The difference is explained
+             * in github.
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
             Parameters.PlanningAlgorithm pln_method = Parameters.PlanningAlgorithm.INVALID;
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.LOCAL;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -87,10 +87,10 @@ public class WorkflowSimBasicExample2 extends WorkflowSimBasicExample1{
             /**
              * Initialize static parameters
              */
-            
+
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -113,7 +113,7 @@ public class WorkflowSimBasicExample2 extends WorkflowSimBasicExample1{
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -135,11 +135,11 @@ public class WorkflowSimBasicExample2 extends WorkflowSimBasicExample1{
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -156,8 +156,8 @@ throw new RuntimeException(e);
         Log.printLine();
         Log.printLine("========== OUTPUT ==========");
         Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
-                + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent +
-                "Start Time" + indent + "Finish Time" + indent + "Depth" + indent + "Cost");
+                      + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent +
+                      "Start Time" + indent + "Finish Time" + indent + "Depth" + indent + "Cost");
 
         DecimalFormat dft = new DecimalFormat("###.##");
         double cost = 0.0;
@@ -170,18 +170,18 @@ throw new RuntimeException(e);
                 Log.print("SUCCESS");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth() 
-                        + indent + indent + indent + dft.format(job.getProcessingCost()));
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth()
+                              + indent + indent + indent + dft.format(job.getProcessingCost()));
             } else if (job.getCloudletStatus() == Cloudlet.FAILED) {
                 Log.print("FAILED");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth()
-                        + indent + indent + indent + dft.format(job.getProcessingCost()));
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth()
+                              + indent + indent + indent + dft.format(job.getProcessingCost()));
             }
         }
         Log.printLine("The total cost is " + dft.format(cost));

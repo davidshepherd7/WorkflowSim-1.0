@@ -1,19 +1,19 @@
 /*
- * 
+ *
  *  Copyright 2012-2013 University Of Southern California
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing,
  *   software distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  */
 package org.workflowsim.clustering.balancing.methods;
 
@@ -56,10 +56,10 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         }
 
     }
-    
+
     /**
      * Sort taskSet based on their impact factors and then merge similar taskSet together
-     * @param taskList 
+     * @param taskList
      */
     public void process(ArrayList<TaskSet> taskList) {
 
@@ -91,21 +91,21 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
 
             taskList.clear();//you sure?
         } else {
-            //do nothing since 
+            //do nothing since
         }
 
 
     }
 
-   
-        /**
+
+    /**
      * Sort taskSet in an ascending order of impact factor
      * @param taskList taskSets to be sorted
      */
 
     private ArrayList sortDistanceIncreasing(int[][] distances, int size, int num) {
         ArrayList newList = new ArrayList<Integer>();
-        //first two 
+        //first two
         int max = 0;
         int max_i = 0;
         int max_j = 0;
@@ -120,18 +120,18 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         }
         newList.add(max_i);
         newList.add(max_j);
-        
+
 
         double max_dist = 0;
         max_i = 0;
         for(int id = 0; id < num - 2 ; id++){
             max_dist = 0;//bug fixed here
             for(int i = 0; i < size; i++){
-                    double dist = getAvgDistance(i, newList, distances);
-                    if(max_dist < dist){
-                        max_dist = dist;
-                        max_i = i;
-                    }
+                double dist = getAvgDistance(i, newList, distances);
+                if(max_dist < dist){
+                    max_dist = dist;
+                    max_i = i;
+                }
             }
             if(max_dist == max){
                 newList.add(max_i);
@@ -139,7 +139,7 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         }
         return newList;
     }
-    
+
     private double getAvgDistance(int id, ArrayList<Integer> list, int[][] distances){
         if(list.isEmpty()){
             double avg = 0.0;
@@ -168,16 +168,16 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
             record[i]= -1;
         }
         int index_record = 0;
-        
+
         int[][] distances = new int[size][size];
-        
+
 
         for(int i = 0; i < size; i++){
             for(int j = 0; j <i; j++){
                 TaskSet setA = (TaskSet)taskList.get(i);
                 TaskSet setB = (TaskSet)taskList.get(j);
                 int distance = calDistance(setA, setB);
-                
+
                 distances[i][j] = distance;
 
             }
@@ -187,24 +187,24 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         ArrayList idList = sortDistanceIncreasing(distances, size, jobList.size());
         for(int i = 0; i < idList.size(); i++){
             int max_i = (Integer)idList.get(i);
-                
-                record[index_record] = max_i;
-                index_record ++;
-                TaskSet set = (TaskSet)taskList.get(max_i);
-                TaskSet job = jobList.get(job_index);
-                addTaskSet2TaskSet(set, job);
-                job.addTask(set.getTaskList());
-                job.setImpactFafctor(set.getImpactFactor());
-                //update dependency
-                for (Task task : set.getTaskList()) {
-                    getTaskMap().put(task, job);//this is enough
-                    //impact factor is not updated
-                }
-                job_index ++;
-                if(job_index == jobList.size()){
-                    break;
-                }
-            
+
+            record[index_record] = max_i;
+            index_record ++;
+            TaskSet set = (TaskSet)taskList.get(max_i);
+            TaskSet job = jobList.get(job_index);
+            addTaskSet2TaskSet(set, job);
+            job.addTask(set.getTaskList());
+            job.setImpactFafctor(set.getImpactFactor());
+            //update dependency
+            for (Task task : set.getTaskList()) {
+                getTaskMap().put(task, job);//this is enough
+                //impact factor is not updated
+            }
+            job_index ++;
+            if(job_index == jobList.size()){
+                break;
+            }
+
         }
 
 
@@ -214,31 +214,31 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         Arrays.sort(record);
         for(int i = size -1 ;i>=0 && record[i]>=0;i--){
             taskList.remove(record[i]);
-            
-            
+
+
         }
-        
+
         return taskList;
-        
+
     }
 
-    private ArrayList<TaskSet> getNextPotentialTaskSets(ArrayList<TaskSet> taskList, 
-                                            TaskSet checkSet, int clusters_size){
+    private ArrayList<TaskSet> getNextPotentialTaskSets(ArrayList<TaskSet> taskList,
+                                                        TaskSet checkSet, int clusters_size){
         int dis = Integer.MAX_VALUE;
 
         HashMap map = new HashMap<Integer, ArrayList>();
         for (TaskSet set : taskList) {
-                int distance = calDistance(checkSet, set);
-                if(distance < dis){
-                    dis = distance;
-                }
-                if(!map.containsKey(distance)){
-                    map.put(distance, new ArrayList<TaskSet>());
-                }
-                ArrayList<TaskSet> list = (ArrayList)map.get(distance);
-                if(!list.contains(set)){
-                    list.add(set);
-                }
+            int distance = calDistance(checkSet, set);
+            if(distance < dis){
+                dis = distance;
+            }
+            if(!map.containsKey(distance)){
+                map.put(distance, new ArrayList<TaskSet>());
+            }
+            ArrayList<TaskSet> list = (ArrayList)map.get(distance);
+            if(!list.contains(set)){
+                list.add(set);
+            }
         }
         ArrayList returnList = new ArrayList<TaskSet> ();
         for(TaskSet set: (ArrayList<TaskSet>)map.get(dis)){
@@ -246,7 +246,7 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
                 returnList.add(set);
             }
         }
-        
+
         if(returnList.isEmpty()){
             returnList.clear();
             for (TaskSet set : taskList) {
@@ -255,7 +255,7 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
                     return returnList;
                 }
             }
-            
+
             //no empty available
             while(returnList.isEmpty() ){
                 map.remove(dis);
@@ -267,37 +267,37 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
                     }
                 }
                 dis = min;
-                
+
                 for(TaskSet set: (ArrayList<TaskSet>)map.get(dis)){
                     if(set.getTaskList().size() < clusters_size){
                         returnList.add(set);
                     }
                 }
             }
-            
+
             return returnList;
-            
+
         }else{
-            
+
             return returnList;
         }
-        
+
 
     }
-    
-    
+
+
     /**
      * Gets the potential candidate taskSets to merge
      * @param taskList
      * @param checkSet
-     * @return 
+     * @return
      */
-    protected TaskSet getCandidateTastSet(ArrayList<TaskSet> taskList, 
-                                            TaskSet checkSet, 
-                                            int clusters_size) {
-        
-        
-        
+    protected TaskSet getCandidateTastSet(ArrayList<TaskSet> taskList,
+                                          TaskSet checkSet,
+                                          int clusters_size) {
+
+
+
         ArrayList<TaskSet> potential = getNextPotentialTaskSets(taskList, checkSet,  clusters_size);
         TaskSet task = null;
         long min = Long.MAX_VALUE;
@@ -313,18 +313,18 @@ public class HorizontalDistanceBalancing extends HorizontalImpactBalancing {
         } else {
             return taskList.get(0);
         }
-        
+
 
     }
 
     /**
      * Calculate the distance between two taskSet
-     * one assumption here taskA and taskB are at the same level 
+     * one assumption here taskA and taskB are at the same level
      * because it is horizontal clustering
      * does not work with arbitary workflows
      * @param taskA
      * @param taskB
-     * @return 
+     * @return
      */
     private int calDistance(TaskSet taskA, TaskSet taskB) {
         if (taskA == null || taskB == null || taskA == taskB) {
@@ -394,5 +394,5 @@ class Distance{
     public int getDistance(){
         return this.distance;
     }
-    
+
 }

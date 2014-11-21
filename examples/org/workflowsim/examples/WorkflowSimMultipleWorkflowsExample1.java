@@ -87,8 +87,8 @@ public class WorkflowSimMultipleWorkflowsExample1 {
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -106,7 +106,7 @@ public class WorkflowSimMultipleWorkflowsExample1 {
 
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
@@ -114,10 +114,10 @@ public class WorkflowSimMultipleWorkflowsExample1 {
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.SHARED;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -128,8 +128,8 @@ public class WorkflowSimMultipleWorkflowsExample1 {
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPaths, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -152,7 +152,7 @@ public class WorkflowSimMultipleWorkflowsExample1 {
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -174,11 +174,11 @@ public class WorkflowSimMultipleWorkflowsExample1 {
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -205,13 +205,13 @@ throw new RuntimeException(e);
             long storage = 1000000; //host storage
             int bw = 10000;
             hostList.add(
-                    new Host(
-                    hostId,
-                    new RamProvisionerSimple(ram),
-                    new BwProvisionerSimple(bw),
-                    storage,
-                    peList1,
-                    new VmSchedulerTimeShared(peList1))); // This is our first machine
+                         new Host(
+                                  hostId,
+                                  new RamProvisionerSimple(ram),
+                                  new BwProvisionerSimple(bw),
+                                  storage,
+                                  peList1,
+                                  new VmSchedulerTimeShared(peList1))); // This is our first machine
             hostId++;
 
         }
@@ -225,15 +225,15 @@ throw new RuntimeException(e);
         String vmm = "Xen";
         double time_zone = 10.0;         // time zone this resource located
         double cost = 3.0;              // the cost of using processing in this resource
-        double costPerMem = 0.05;		// the cost of using memory in this resource
-        double costPerStorage = 0.1;	// the cost of using storage in this resource
-        double costPerBw = 0.1;			// the cost of using bw in this resource
-        LinkedList<Storage> storageList = new LinkedList<Storage>();	//we are not adding SAN devices by now
+        double costPerMem = 0.05;               // the cost of using memory in this resource
+        double costPerStorage = 0.1;    // the cost of using storage in this resource
+        double costPerBw = 0.1;                 // the cost of using bw in this resource
+        LinkedList<Storage> storageList = new LinkedList<Storage>();    //we are not adding SAN devices by now
         WorkflowDatacenter datacenter = null;
 
 
         DatacenterCharacteristics characteristics = new DatacenterCharacteristics(
-                arch, os, vmm, hostList, time_zone, cost, costPerMem, costPerStorage, costPerBw);
+                                                                                  arch, os, vmm, hostList, time_zone, cost, costPerMem, costPerStorage, costPerBw);
 
 
         // 6. Finally, we need to create a storage object.
@@ -241,7 +241,7 @@ throw new RuntimeException(e);
          * The bandwidth within a data center in MB/s.
          */
         int maxTransferRate = 15;// the number comes from the futuregrid site, you can specify your bw
-        
+
         try {
             HarddriveStorage s1 = new HarddriveStorage(name, 1e12);
             s1.setMaxTransferRate(maxTransferRate);
@@ -267,7 +267,7 @@ throw new RuntimeException(e);
         Log.printLine();
         Log.printLine("========== OUTPUT ==========");
         Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
-                + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
+                      + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
 
         DecimalFormat dft = new DecimalFormat("###.##");
         for (int i = 0; i < size; i++) {
@@ -278,16 +278,16 @@ throw new RuntimeException(e);
                 Log.print("SUCCESS");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
             } else if (job.getCloudletStatus() == Cloudlet.FAILED) {
                 Log.print("FAILED");
 
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                        + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                              + indent + indent + indent + dft.format(job.getActualCPUTime())
+                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
             }
         }
 

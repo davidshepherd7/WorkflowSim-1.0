@@ -118,7 +118,7 @@ public class WorkflowEngine extends SimEntity {
         getScheduler(0).submitVmList(list);
         setVmList(list);
     }
-    
+
     public List<? extends Vm> getAllVmList(){
         if(this.vmList != null && !this.vmList.isEmpty()){
             return this.vmList;
@@ -155,29 +155,29 @@ public class WorkflowEngine extends SimEntity {
     public void processEvent(SimEvent ev) {
         switch (ev.getTag()) {
             // Resource characteristics request
-            case CloudSimTags.RESOURCE_CHARACTERISTICS_REQUEST:
-                processResourceCharacteristicsRequest(ev);
-                break;
+        case CloudSimTags.RESOURCE_CHARACTERISTICS_REQUEST:
+            processResourceCharacteristicsRequest(ev);
+            break;
             //this call is from workflow scheduler when all vms are created
-            case CloudSimTags.CLOUDLET_SUBMIT:
-                submitJobs();
-                break;
+        case CloudSimTags.CLOUDLET_SUBMIT:
+            submitJobs();
+            break;
 
-            case CloudSimTags.CLOUDLET_RETURN:
-                processJobReturn(ev);
-                break;
+        case CloudSimTags.CLOUDLET_RETURN:
+            processJobReturn(ev);
+            break;
             // if the simulation finishes
-            case CloudSimTags.END_OF_SIMULATION:
-                shutdownEntity();
-                break;
+        case CloudSimTags.END_OF_SIMULATION:
+            shutdownEntity();
+            break;
 
-            case CloudSimTags.JOB_SUBMIT:
-                processJobSubmit(ev);
-                break;
+        case CloudSimTags.JOB_SUBMIT:
+            processJobSubmit(ev);
+            break;
             // other unknown tags are processed by this method
-            default:
-                processOtherEvent(ev);
-                break;
+        default:
+            processOtherEvent(ev);
+            break;
         }
     }
 
@@ -215,7 +215,7 @@ public class WorkflowEngine extends SimEntity {
         bindSchedulerDatacenter(datacenterId, 0);
 
     }
-   
+
     /**
      * Process a submit event
      *
@@ -274,7 +274,7 @@ public class WorkflowEngine extends SimEntity {
         }
 
         Log.printLine(getName() + ".processOtherEvent(): "
-                + "Error - event unknown by this DatacenterBroker.");
+                      + "Error - event unknown by this DatacenterBroker.");
     }
 
     /**

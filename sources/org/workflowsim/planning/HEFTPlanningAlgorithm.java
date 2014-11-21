@@ -64,7 +64,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
         }
 
         @Override
-        public int compareTo(TaskRank o) {
+            public int compareTo(TaskRank o) {
             return o.rank.compareTo(rank);
         }
     }
@@ -83,7 +83,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
     @Override
     public void run() {
         Log.printLine("HEFT planner running with " + getTaskList().size()
-                + " tasks.");
+                      + " tasks.");
 
         averageBandwidth = calculateAverageBandwidth();
 
@@ -131,7 +131,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
                     costsVm.put(vm, Double.MAX_VALUE);
                 } else {
                     costsVm.put(vm,
-                            task.getCloudletTotalLength() / vm.getMips());
+                                task.getCloudletTotalLength() / vm.getMips());
                 }
             }
             computationCosts.put(task, costsVm);
@@ -161,7 +161,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
             Task parent = (Task) parentObject;
             for (Task child : parent.getChildList()) {
                 transferCosts.get(parent).put(child,
-                        calculateTransferCost(parent, child));
+                                              calculateTransferCost(parent, child));
             }
         }
     }
@@ -187,7 +187,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
 
             for (File childFile : childFiles) {
                 if (childFile.getType() == Parameters.FileType.INPUT.value
-                        && childFile.getName().equals(parentFile.getName())) {
+                    && childFile.getName().equals(parentFile.getName())) {
                     acc += childFile.getSize();
                     break;
                 }
@@ -233,7 +233,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
         double max = 0.0;
         for (Task child : task.getChildList()) {
             double childCost = transferCosts.get(task).get(child)
-                    + calculateRank(child);
+                + calculateRank(child);
             max = Math.max(max, childCost);
         }
 
@@ -313,7 +313,7 @@ public class HEFTPlanningAlgorithm extends BasePlanningAlgorithm {
      * @return The minimal finish time of the task in the vmn
      */
     private double findFinishTime(Task task, Vm vm, double readyTime,
-            boolean occupySlot) {
+                                  boolean occupySlot) {
         List<Event> sched = schedules.get(vm);
         double computationCost = computationCosts.get(task).get(vm);
         double start, finish;

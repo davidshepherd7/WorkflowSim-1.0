@@ -66,7 +66,7 @@ public class WorkflowParser {
      * User id. used to create a new task.
      */
     private int userId;
-    
+
     /**
      * current job id. In case multiple workflow submission
      */
@@ -110,7 +110,7 @@ public class WorkflowParser {
         this.daxPaths = Parameters.getDAXPaths();
         this.runtimePath = Parameters.getRuntimePath();
         this.jobIdStartsFrom = 1;
-            
+
         setTaskList(new ArrayList<Task>());
 
     }
@@ -186,7 +186,7 @@ public class WorkflowParser {
                     }
                     //multiple the scale, by default it is 1.0
                     length *= Parameters.getRuntimeScale();
-                    
+
                     List fileList = node.getChildren();
 
                     List mFileList = new ArrayList<org.cloudbus.cloudsim.File>();
@@ -207,14 +207,14 @@ public class WorkflowParser {
 
                             String inout = file.getAttributeValue("link");
                             double size = 0.0;
-                            
+
                             String fileSize = file.getAttributeValue("size");
                             if (fileSize != null) {
                                 size = Double.parseDouble(fileSize) /*/ 1024*/;
                             } else {
                                 Log.printLine("File Size not found for " + fileName);
                             }
-                            
+
                             /**
                              * a bug of cloudsim, size 0 causes a problem. 1 is
                              * ok.
@@ -265,7 +265,7 @@ public class WorkflowParser {
 
                     }
                     Task task;
-                    //In case of multiple workflow submission. Make sure the jobIdStartsFrom is consistent. 
+                    //In case of multiple workflow submission. Make sure the jobIdStartsFrom is consistent.
                     synchronized (this){
                         task = new Task(this.jobIdStartsFrom, length);
                         this.jobIdStartsFrom ++ ;

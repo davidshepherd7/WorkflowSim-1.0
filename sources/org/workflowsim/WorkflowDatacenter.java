@@ -47,10 +47,10 @@ import org.workflowsim.utils.Parameters.FileType;
 public class WorkflowDatacenter extends Datacenter {
 
     public WorkflowDatacenter(String name,
-            DatacenterCharacteristics characteristics,
-            VmAllocationPolicy vmAllocationPolicy,
-            List<Storage> storageList,
-            double schedulingInterval) throws Exception {
+                              DatacenterCharacteristics characteristics,
+                              VmAllocationPolicy vmAllocationPolicy,
+                              List<Storage> storageList,
+                              double schedulingInterval) throws Exception {
         super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
 
     }
@@ -82,7 +82,7 @@ public class WorkflowDatacenter extends Datacenter {
             if (cl.isFinished()) {
                 String name = CloudSim.getEntityName(cl.getUserId());
                 Log.printLine(getName() + ": Warning - Cloudlet #" + cl.getCloudletId() + " owned by " + name
-                        + " is already completed/finished.");
+                              + " is already completed/finished.");
                 Log.printLine("Therefore, it is not being executed again");
                 Log.printLine();
 
@@ -112,17 +112,17 @@ public class WorkflowDatacenter extends Datacenter {
             Host host = getVmAllocationPolicy().getHost(vmId, userId);
 
             switch (Parameters.getCostModel()) {
-                case DATACENTER:
-                    // process this Cloudlet to this CloudResource
-                    cl.setResourceParameter(getId(), getCharacteristics().getCostPerSecond(), 
-                            getCharacteristics().getCostPerBw());
-                    break;
-                case VM:
+            case DATACENTER:
+                // process this Cloudlet to this CloudResource
+                cl.setResourceParameter(getId(), getCharacteristics().getCostPerSecond(),
+                                        getCharacteristics().getCostPerBw());
+                break;
+            case VM:
                 CondorVM cvm = (CondorVM) host.getVm(vmId, userId);
                 cl.setResourceParameter(getId(), cvm.getCost(), cvm.getCostPerBW());
-                    break;
-                default:
-                    break;
+                break;
+            default:
+                break;
             }
 
             Vm vm = host.getVm(vmId, userId);
@@ -221,24 +221,24 @@ public class WorkflowDatacenter extends Datacenter {
                  * For local file system, add it to local storage (data center
                  * name)
                  */
-                case LOCAL:
+            case LOCAL:
 
-                    ReplicaCatalog.addStorageList(file.getName(), this.getName());
-                    /**
-                     * Is it not really needed currently but it is left for
-                     * future usage
-                     */
-                    //ClusterStorage storage = (ClusterStorage) getStorageList().get(0);
-                    //storage.addFile(file);
-                    break;
+                ReplicaCatalog.addStorageList(file.getName(), this.getName());
+                /**
+                 * Is it not really needed currently but it is left for
+                 * future usage
+                 */
+                //ClusterStorage storage = (ClusterStorage) getStorageList().get(0);
+                //storage.addFile(file);
+                break;
                 /**
                  * For shared file system, add it to the shared storage
                  */
-                case SHARED:
-                    ReplicaCatalog.addStorageList(file.getName(), this.getName());
-                    break;
-                default:
-                    break;
+            case SHARED:
+                ReplicaCatalog.addStorageList(file.getName(), this.getName());
+                break;
+            default:
+                break;
             }
 
         }
@@ -258,18 +258,18 @@ public class WorkflowDatacenter extends Datacenter {
      */
     private boolean isRealInputFile(List<File> list, File file) {
         if (file.getType() == FileType.INPUT.value)//input file
-        {
-            for (File another : list) {
-                if (another.getName().equals(file.getName())
+            {
+                for (File another : list) {
+                    if (another.getName().equals(file.getName())
                         /**
                          * if another file is output file
                          */
                         && another.getType() == FileType.OUTPUT.value) {
-                    return false;
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
-        }
         return false;
     }
     /*
@@ -285,7 +285,7 @@ public class WorkflowDatacenter extends Datacenter {
         Iterator<File> iter = requiredFiles.iterator();
         while (iter.hasNext()) {
             File file = iter.next();
-            //The input file is not an output File 
+            //The input file is not an output File
             if (isRealInputFile(requiredFiles, file)) {
                 double maxBwth = 0.0;
                 List siteList = ReplicaCatalog.getStorageList(file.getName());
@@ -293,73 +293,73 @@ public class WorkflowDatacenter extends Datacenter {
                     throw new Exception(file.getName() + " does not exist");
                 }
                 switch (ReplicaCatalog.getFileSystem()) {
-                    case SHARED:
-                        //stage-in job
+                case SHARED:
+                    //stage-in job
+                    /**
+                     * Picks up the site that is closest
+                     */
+                    if (cl.getClassType() == ClassType.STAGE_IN.value) {
+                        double maxRate = Double.MIN_VALUE;
+                        for (Storage storage : getStorageList()) {
+                            double rate = storage.getMaxTransferRate();
+                            if (rate > maxRate) {
+                                rate = maxRate;
+                            }
+                        }
+                        //Storage storage = getStorageList().get(0);
+                        time += file.getSize() / maxRate;
+                    }
+                    break;
+                case LOCAL:
+
+                    int vmId = cl.getVmId();
+                    int userId = cl.getUserId();
+                    Host host = getVmAllocationPolicy().getHost(vmId, userId);
+                    Vm vm = host.getVm(vmId, userId);
+
+                    boolean requiredFileStagein = true;
+
+                    for (Iterator it = siteList.iterator(); it.hasNext();) {
+                        //site is where one replica of this data is located at
+                        String site = (String) it.next();
+                        if (site.equals(this.getName())) {
+                            continue;
+                        }
                         /**
-                         * Picks up the site that is closest
+                         * This file is already in the local vm and thus it
+                         * is no need to transfer
                          */
-                        if (cl.getClassType() == ClassType.STAGE_IN.value) {
-                            double maxRate = Double.MIN_VALUE;
-                            for (Storage storage : getStorageList()) {
-                                double rate = storage.getMaxTransferRate();
-                                if (rate > maxRate) {
-                                    rate = maxRate;
-                                }
-                            }
-                            //Storage storage = getStorageList().get(0);
-                            time += file.getSize() / maxRate;
+                        if (site.equals(Integer.toString(vmId))) {
+                            requiredFileStagein = false;
+                            break;
                         }
-                        break;
-                    case LOCAL:
-
-                        int vmId = cl.getVmId();
-                        int userId = cl.getUserId();
-                        Host host = getVmAllocationPolicy().getHost(vmId, userId);
-                        Vm vm = host.getVm(vmId, userId);
-
-                        boolean requiredFileStagein = true;
-
-                        for (Iterator it = siteList.iterator(); it.hasNext();) {
-                            //site is where one replica of this data is located at
-                            String site = (String) it.next();
-                            if (site.equals(this.getName())) {
-                                continue;
-                            }
-                            /**
-                             * This file is already in the local vm and thus it
-                             * is no need to transfer
-                             */
-                            if (site.equals(Integer.toString(vmId))) {
-                                requiredFileStagein = false;
-                                break;
-                            }
-                            double bwth;
-                            if (site.equals(Parameters.SOURCE)) {
-                                //transfers from the source to the VM is limited to the VM bw only
-                                bwth = vm.getBw();
-                                //bwth = dcStorage.getBaseBandwidth();
-                            } else {
-                                //transfers between two VMs is limited to both VMs
-                                bwth = Math.min(vm.getBw(), getVmAllocationPolicy().getHost(Integer.parseInt(site), userId).getVm(Integer.parseInt(site), userId).getBw());
-                                //bwth = dcStorage.getBandwidth(Integer.parseInt(site), vmId);
-                            }
-                            if (bwth > maxBwth) {
-                                maxBwth = bwth;
-                            }
+                        double bwth;
+                        if (site.equals(Parameters.SOURCE)) {
+                            //transfers from the source to the VM is limited to the VM bw only
+                            bwth = vm.getBw();
+                            //bwth = dcStorage.getBaseBandwidth();
+                        } else {
+                            //transfers between two VMs is limited to both VMs
+                            bwth = Math.min(vm.getBw(), getVmAllocationPolicy().getHost(Integer.parseInt(site), userId).getVm(Integer.parseInt(site), userId).getBw());
+                            //bwth = dcStorage.getBandwidth(Integer.parseInt(site), vmId);
                         }
-                        if (requiredFileStagein && maxBwth > 0.0) {
-                            time += file.getSize() / Consts.MILLION * 8 / maxBwth;
+                        if (bwth > maxBwth) {
+                            maxBwth = bwth;
                         }
+                    }
+                    if (requiredFileStagein && maxBwth > 0.0) {
+                        time += file.getSize() / Consts.MILLION * 8 / maxBwth;
+                    }
 
-                        /**
-                         * For the case when storage is too small it is not
-                         * handled here
-                         */
-                        //We should add but since CondorVm has a small capability it often fails
-                        //We currently don't use this storage to do anything meaningful. It is left for future. 
-                        //condorVm.addLocalFile(file);
-                        ReplicaCatalog.addStorageList(file.getName(), Integer.toString(vmId));
-                        break;
+                    /**
+                     * For the case when storage is too small it is not
+                     * handled here
+                     */
+                    //We should add but since CondorVm has a small capability it often fails
+                    //We currently don't use this storage to do anything meaningful. It is left for future.
+                    //condorVm.addLocalFile(file);
+                    ReplicaCatalog.addStorageList(file.getName(), Integer.toString(vmId));
+                    break;
                 }
             }
         }
@@ -433,9 +433,9 @@ public class WorkflowDatacenter extends Datacenter {
         for (Iterator it = fList.iterator(); it.hasNext();) {
             org.cloudbus.cloudsim.File file = (org.cloudbus.cloudsim.File) it.next();
             if (file.getType() == FileType.OUTPUT.value)//output file
-            {
+                {
 
-                switch (ReplicaCatalog.getFileSystem()) {
+                    switch (ReplicaCatalog.getFileSystem()) {
                     case SHARED:
                         ReplicaCatalog.addStorageList(file.getName(), this.getName());
                         break;
@@ -450,8 +450,8 @@ public class WorkflowDatacenter extends Datacenter {
 
                         ReplicaCatalog.addStorageList(file.getName(), Integer.toString(vmId));
                         break;
+                    }
                 }
-            }
         }
     }
 }

@@ -144,48 +144,48 @@ public final class ClusteringEngine extends SimEntity {
             /**
              * Perform Horizontal Clustering
              */
-            case HORIZONTAL:
-                /**
-                 * if clusters.num is set in configuration file
-                 */
-                if (params.getClustersNum() != 0) {
-                    this.engine = new HorizontalClustering(params.getClustersNum(), 0);
-                } /**
-                 * else if clusters.size is set in configuration file
-                 */
-                else if (params.getClustersSize() != 0) {
-                    this.engine = new HorizontalClustering(0, params.getClustersSize());
-                }/**
-                 * else does no clustering
-                 */
-                else {
-                }
-                break;
+        case HORIZONTAL:
+            /**
+             * if clusters.num is set in configuration file
+             */
+            if (params.getClustersNum() != 0) {
+                this.engine = new HorizontalClustering(params.getClustersNum(), 0);
+            } /**
+               * else if clusters.size is set in configuration file
+               */
+            else if (params.getClustersSize() != 0) {
+                this.engine = new HorizontalClustering(0, params.getClustersSize());
+            }/**
+              * else does no clustering
+              */
+            else {
+            }
+            break;
             /**
              * Perform Vertical Clustering
              */
-            case VERTICAL:
-                int depth = 1;
-                this.engine = new VerticalClustering(depth);
-                break;
+        case VERTICAL:
+            int depth = 1;
+            this.engine = new VerticalClustering(depth);
+            break;
             /**
              * Perform Block Clustering
              */
-            case BLOCK:
-                this.engine = new BlockClustering(params.getClustersNum(), params.getClustersSize());
-                break;
+        case BLOCK:
+            this.engine = new BlockClustering(params.getClustersNum(), params.getClustersSize());
+            break;
             /**
              * Perform Balanced Clustering
              */
-            case BALANCED:
-                this.engine = new BalancedClustering(params.getClustersNum());
-                break;
+        case BALANCED:
+            this.engine = new BalancedClustering(params.getClustersNum());
+            break;
             /**
              * By default, it does no clustering
              */
-            default:
-                this.engine = new BasicClustering();
-                break;
+        default:
+            this.engine = new BasicClustering();
+            break;
         }
         engine.setTaskList(getTaskList());
         engine.run();
@@ -213,10 +213,10 @@ public final class ClusteringEngine extends SimEntity {
                  * output file
                  */
                 if (another.getName().equals(file.getName())
-                        /**
-                         * It is output file
-                         */
-                        && another.getType() == FileType.OUTPUT.value) {
+                    /**
+                     * It is output file
+                     */
+                    && another.getType() == FileType.OUTPUT.value) {
                     return false;
                 }
             }
@@ -309,31 +309,31 @@ public final class ClusteringEngine extends SimEntity {
     public void processEvent(SimEvent ev) {
 
         switch (ev.getTag()) {
-            case CloudSimTags.START_SIMULATION:
-                break;
-            case CloudSimTags.JOB_SUBMIT:
-                List list = (List) ev.getData();
-                setTaskList(list);
-                /**
-                 * It doesn't mean we must do clustering here because by default
-                 * the processClustering() does nothing unless in the
-                 * configuration file we have specified to use clustering
-                 */
-                processClustering();
-                /**
-                 * Add stage-in jobs Currently we just add a job that has
-                 * minimum runtime but inputs all input data at the beginning of
-                 * the workflow execution
-                 */
-                processDatastaging();
-                sendNow(this.workflowEngineId, CloudSimTags.JOB_SUBMIT, getJobList());
-                break;
-            case CloudSimTags.END_OF_SIMULATION:
-                shutdownEntity();
-                break;
-            default:
-                processOtherEvent(ev);
-                break;
+        case CloudSimTags.START_SIMULATION:
+            break;
+        case CloudSimTags.JOB_SUBMIT:
+            List list = (List) ev.getData();
+            setTaskList(list);
+            /**
+             * It doesn't mean we must do clustering here because by default
+             * the processClustering() does nothing unless in the
+             * configuration file we have specified to use clustering
+             */
+            processClustering();
+            /**
+             * Add stage-in jobs Currently we just add a job that has
+             * minimum runtime but inputs all input data at the beginning of
+             * the workflow execution
+             */
+            processDatastaging();
+            sendNow(this.workflowEngineId, CloudSimTags.JOB_SUBMIT, getJobList());
+            break;
+        case CloudSimTags.END_OF_SIMULATION:
+            shutdownEntity();
+            break;
+        default:
+            processOtherEvent(ev);
+            break;
         }
     }
 
@@ -352,7 +352,7 @@ public final class ClusteringEngine extends SimEntity {
         }
 
         Log.printLine(getName() + ".processOtherEvent(): "
-                + "Error - event unknown by this DatacenterBroker.");
+                      + "Error - event unknown by this DatacenterBroker.");
     }
 
     /**

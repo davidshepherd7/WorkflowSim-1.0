@@ -31,7 +31,7 @@ import org.workflowsim.utils.Parameters;
 import org.workflowsim.utils.ReplicaCatalog;
 
 /**
- * This RoundRobin Scheduling Algorithm 
+ * This RoundRobin Scheduling Algorithm
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.1
@@ -48,7 +48,7 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
 
 
         try {
-            // First step: Initialize the WorkflowSim package. 
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -58,10 +58,10 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
             int vmNum = 10;//number of vms;
 
             String daxPath = "config/dax/Montage_100.xml";
-            
-            
+
+
             /**
-             * Since we are using HEFT planning algorithm, the scheduling algorithm should be static 
+             * Since we are using HEFT planning algorithm, the scheduling algorithm should be static
              * such that the scheduler would not override the result of the planner
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.ROUNDROBIN;
@@ -69,10 +69,10 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.LOCAL;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -83,8 +83,8 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -133,9 +133,9 @@ public class RoundRobinSchedulingAlgorithmExample extends DataAwareSchedulingAlg
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
-   
+
 }

@@ -36,7 +36,7 @@ import org.workflowsim.utils.Parameters;
 import org.workflowsim.utils.ReplicaCatalog;
 
 /**
- * This FaultTolerantExample1 uses FailureGenerator to create task failures and 
+ * This FaultTolerantExample1 uses FailureGenerator to create task failures and
  * then retry tasks
  *
  * @author Weiwei Chen
@@ -53,8 +53,8 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -73,29 +73,29 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
             /**
              * MONITOR_JOB classifies failures based on the level of jobs; MONITOR_VM classifies failures
              * based on the vm id; MOINTOR_ALL does not do any classification; MONITOR_NONE does not record
-             * any failiure. 
+             * any failiure.
              */
             FailureParameters.FTCMonitor ftc_monitor = FailureParameters.FTCMonitor.MONITOR_ALL;
             /**
-             *  Similar to FTCMonitor, FTCFailure controls the way how we generate failures. 
+             *  Similar to FTCMonitor, FTCFailure controls the way how we generate failures.
              */
             FailureParameters.FTCFailure ftc_failure = FailureParameters.FTCFailure.FAILURE_ALL;
             /**
-             *  In this example, we have no clustering and thus it is no need to do 
+             *  In this example, we have no clustering and thus it is no need to do
              * Fault Tolerant Clustering. By default, WorkflowSim will just rety all
-             * the failed task. 
+             * the failed task.
              */
             FailureParameters.FTCluteringAlgorithm ftc_method = FailureParameters.FTCluteringAlgorithm.FTCLUSTERING_NOOP;
             /**
-             * Task failure rate for each level 
-             * 
+             * Task failure rate for each level
+             *
              */
             DistributionGenerator[][] failureGenerators = new DistributionGenerator[1][1];
-            failureGenerators[0][0] = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL, 
-                    100, 1.0, 30, 300, 0.78);
+            failureGenerators[0][0] = new DistributionGenerator(DistributionGenerator.DistributionFamily.WEIBULL,
+                                                                100, 1.0, 30, 300, 0.78);
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
@@ -103,10 +103,10 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.SHARED;
 
             /**
-             * No overheads 
+             * No overheads
              */
             OverheadParameters op = new OverheadParameters(0, null, null, null, null, 0);;
-            
+
             /**
              * No Clustering
              */
@@ -118,8 +118,8 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
              */
             FailureParameters.init(ftc_method, ftc_monitor, ftc_failure, failureGenerators);
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             FailureMonitor.init();
@@ -145,7 +145,7 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -167,11 +167,11 @@ public class FaultTolerantSchedulingExample1 extends WorkflowSimBasicExample1 {
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 

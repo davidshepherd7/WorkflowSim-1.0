@@ -21,7 +21,7 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 
 /**
- * The FCFS algorithm. 
+ * The FCFS algorithm.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -50,7 +50,7 @@ public class FCFSSchedulingAlgorithm extends BaseSchedulingAlgorithm {
                     break;
                 }
             }
-            //no vm available 
+            //no vm available
             if (!stillHasVm) {
                 break;
             }

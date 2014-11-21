@@ -1,19 +1,19 @@
 /*
- * 
+ *
  *  Copyright 2012-2013 University Of Southern California
- * 
+ *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
  *   You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *   Unless required by applicable law or agreed to in writing,
  *   software distributed under the License is distributed on an "AS IS" BASIS,
  *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
- * 
+ *
  */
 package org.workflowsim.clustering.balancing.methods;
 
@@ -27,7 +27,7 @@ import org.workflowsim.clustering.TaskSet;
 
 /**
  * ChildAwareHorizontalClsutering is a method that merges a task and its children
- * 
+ *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
  * @date Apr 9, 2013
@@ -89,18 +89,18 @@ public class ChildAwareHorizontalClustering extends BalancingMethod {
      */
     private void sortMap(ArrayList<AbstractArrayList> list) {
         Collections.sort(list, new Comparator<AbstractArrayList>() {
-            public int compare(AbstractArrayList l1, AbstractArrayList l2) {
+                public int compare(AbstractArrayList l1, AbstractArrayList l2) {
 
-                return (int) (l2.getArrayList().size() - l1.getArrayList().size());
-            }
-        });
+                    return (int) (l2.getArrayList().size() - l1.getArrayList().size());
+                }
+            });
 
     }
 
     /**
      * Process taskSets level by level
      * @param taskList to be processed
-     * @return 
+     * @return
      */
     private boolean CHBcheckLevel(ArrayList taskList) {
         boolean hasClustered = false;
@@ -167,12 +167,12 @@ public class ChildAwareHorizontalClustering extends BalancingMethod {
         }
         return null;
     }
-    
+
     /**
      * Checks whether two taskSets have one common parent
      * @param setA the first taskSet to compare
      * @param setB the second taskSet to compare
-     * @return whether they have the same parent 
+     * @return whether they have the same parent
      */
     private TaskSet CHBhasOneParent(TaskSet setA, TaskSet setB) {
         for (TaskSet parentA : setA.getParentList()) {

@@ -61,7 +61,7 @@ public class StaticSchedulingAlgorithm extends BaseSchedulingAlgorithm {
              */
             if (cloudlet.getVmId() < 0 || !mId2Vm.containsKey(cloudlet.getVmId())) {
                 Log.printLine("Cloudlet " + cloudlet.getCloudletId() + " is not matched."
-                        + "It is possible a stage-in job");
+                              + "It is possible a stage-in job");
                 cloudlet.setVmId(0);
 
             }
@@ -70,7 +70,7 @@ public class StaticSchedulingAlgorithm extends BaseSchedulingAlgorithm {
                 vm.setState(CloudSimTags.VM_STATUS_BUSY);
                 getScheduledList().add(cloudlet);
                 Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "
-                        + cloudlet.getCloudletLength() + " to VM " + cloudlet.getVmId());
+                              + cloudlet.getCloudletLength() + " to VM " + cloudlet.getVmId());
             }
         }
     }

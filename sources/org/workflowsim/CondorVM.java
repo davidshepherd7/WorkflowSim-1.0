@@ -38,23 +38,23 @@ public class CondorVM extends Vm {
     /**
      * the cost of using memory in this resource
      */
-    private double costPerMem = 0.0;	
-    
+    private double costPerMem = 0.0;
+
     /**
      * the cost of using bandwidth in this resource
      */
-    private double costPerBW = 0.0;	
-    
+    private double costPerBW = 0.0;
+
     /**
      * the cost of using storage in this resource
      */
     private double costPerStorage = 0.0;
-    
+
     /**
      * the cost of using CPU in this resource
      */
-    private double cost = 0.0;	
-    
+    private double cost = 0.0;
+
     /**
      * Creates a new CondorVM object.
      *
@@ -78,28 +78,28 @@ public class CondorVM extends Vm {
      * @post $none
      */
     public CondorVM(
-            int id,
-            int userId,
-            double mips,
-            int numberOfPes,
-            int ram,
-            long bw,
-            long size,
-            String vmm,
-            CloudletScheduler cloudletScheduler) {
+                    int id,
+                    int userId,
+                    double mips,
+                    int numberOfPes,
+                    int ram,
+                    long bw,
+                    long size,
+                    String vmm,
+                    CloudletScheduler cloudletScheduler) {
         super(id, userId, mips, numberOfPes, ram, bw, size, vmm, cloudletScheduler);
 
         /*
-         * If the file.system is LOCAL, we should add a clusterStorage to vm. 
+         * If the file.system is LOCAL, we should add a clusterStorage to vm.
          */
         if (ReplicaCatalog.getFileSystem() == FileSystem.LOCAL) {
             // try {
-                storage = new ClusterStorage(Integer.toString(id), 1e6);
+            storage = new ClusterStorage(Integer.toString(id), 1e6);
             // } catch (Exception e) {
             // }
         }
     }
-    
+
     /**
      * Creates a new CondorVM object.
      *
@@ -127,19 +127,19 @@ public class CondorVM extends Vm {
      * @post $none
      */
     public CondorVM(
-            int id,
-            int userId,
-            double mips,
-            int numberOfPes,
-            int ram,
-            long bw,
-            long size,
-            String vmm,
-            double cost,
-            double costPerMem,
-            double costPerStorage,
-            double costPerBW,  
-            CloudletScheduler cloudletScheduler) {
+                    int id,
+                    int userId,
+                    double mips,
+                    int numberOfPes,
+                    int ram,
+                    long bw,
+                    long size,
+                    String vmm,
+                    double cost,
+                    double costPerMem,
+                    double costPerStorage,
+                    double costPerBW,
+                    CloudletScheduler cloudletScheduler) {
         this(id, userId, mips, numberOfPes, ram, bw, size, vmm, cloudletScheduler);
         this.cost = cost;
         this.costPerBW = costPerBW;
@@ -149,39 +149,39 @@ public class CondorVM extends Vm {
 
     /**
      * Gets the CPU cost
-     * 
+     *
      * @return the cost
      */
     public double getCost(){
         return this.cost;
     }
-    
+
     /**
      * Gets the cost per bw
-     * 
+     *
      * @return the costPerBW
      */
     public double getCostPerBW(){
         return this.costPerBW;
     }
-    
+
     /**
      * Gets the cost per storage
-     * 
+     *
      * @return the costPerStorage
      */
     public double getCostPerStorage(){
         return this.costPerStorage;
     }
-    
+
     /**
      * Gets the cost per memory
-     * 
+     *
      * @return the costPerMem
-     */ 
+     */
     public double getCostPerMem(){
         return this.costPerMem;
-    } 
+    }
 
     /**
      * Adds a file to the local file system

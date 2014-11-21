@@ -36,11 +36,11 @@ import org.cloudbus.cloudsim.UtilizationModelFull;
 public class Task extends Cloudlet {
 
     /*
-     * The list of parent tasks. 
+     * The list of parent tasks.
      */
     private List<Task> parentList;
     /*
-     * The list of child tasks. 
+     * The list of child tasks.
      */
     private List<Task> childList;
     /*
@@ -48,31 +48,31 @@ public class Task extends Cloudlet {
      */
     private List<org.cloudbus.cloudsim.File> fileList;
     /*
-     * The priority used for research. Not used in current version. 
+     * The priority used for research. Not used in current version.
      */
     private int priority;
     /*
-     * The depth of this task. Depth of a task is defined as the furthest path 
-     * from the root task to this task. It is set during the workflow parsing 
-     * stage. 
+     * The depth of this task. Depth of a task is defined as the furthest path
+     * from the root task to this task. It is set during the workflow parsing
+     * stage.
      */
     private int depth;
     /*
-     * The impact of a task. It is used in research. 
+     * The impact of a task. It is used in research.
      */
     private double impact;
 
     /*
-     * The type of a task. 
+     * The type of a task.
      */
     private String type;
 
     /**
-     * The finish time of a task (Because cloudlet does not allow WorkflowSim to 
+     * The finish time of a task (Because cloudlet does not allow WorkflowSim to
      * update finish_time)
      */
     private double task_finish_time;
-    
+
     /**
      * Allocates a new Task object. The task length should be greater than or
      * equal to 1.
@@ -85,8 +85,8 @@ public class Task extends Cloudlet {
      * @post $none
      */
     public Task(
-            final int taskId,
-            final long taskLength) {
+                final int taskId,
+                final long taskLength) {
         /**
          * We do not use cloudletFileSize and cloudletOutputSize here. We have
          * added a list to task and thus we don't need a cloudletFileSize or
@@ -301,7 +301,7 @@ public class Task extends Cloudlet {
     public double getImpact() {
         return this.impact;
     }
-    
+
     /**
      * Sets the finish time of the task (different to the one used in Cloudlet)
      * @param time finish time
@@ -309,10 +309,10 @@ public class Task extends Cloudlet {
     public void setTaskFinishTime(double time){
         this.task_finish_time = time;
     }
-    
+
     /**
      * Gets the finish time of a task (different to the one used in Cloudlet)
-     * @return 
+     * @return
      */
     public double getTaskFinishTime(){
         return this.task_finish_time;
@@ -332,7 +332,7 @@ public class Task extends Cloudlet {
         // cloudlet cost: execution cost...
 
         double cost = getCostPerSec() * getActualCPUTime();
-        
+
         // ...plus input data transfer cost...
         long fileSize = 0;
         for(Iterator it = getFileList().iterator(); it.hasNext();){

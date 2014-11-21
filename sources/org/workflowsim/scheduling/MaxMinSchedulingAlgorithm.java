@@ -102,7 +102,7 @@ public class MaxMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             for (int j = 0; j < vmSize; j++) {
                 Vm vm = getVmList().get(j);
                 if ((vm.getState() == CloudSimTags.VM_STATUS_IDLE)
-                        && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
+                    && vm.getCurrentRequestedTotalMips() > firstIdleVm.getCurrentRequestedTotalMips()) {
                     firstIdleVm = vm;
 
                 }
@@ -111,8 +111,8 @@ public class MaxMinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             maxCloudlet.setVmId(firstIdleVm.getId());
             getScheduledList().add(maxCloudlet);
             Log.printLine("Schedules " + maxCloudlet.getCloudletId() + " with "
-                    + maxCloudlet.getCloudletLength() + " to VM " + firstIdleVm.getId()
-                    + " with " + firstIdleVm.getCurrentRequestedTotalMips());
+                          + maxCloudlet.getCloudletLength() + " to VM " + firstIdleVm.getId()
+                          + " with " + firstIdleVm.getCurrentRequestedTotalMips());
 
         }
     }

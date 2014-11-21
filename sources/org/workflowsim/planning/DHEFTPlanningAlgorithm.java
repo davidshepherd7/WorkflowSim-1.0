@@ -25,10 +25,10 @@ import org.workflowsim.utils.Parameters;
 
 /**
  * The Distributed HEFT planning algorithm. The difference compared to HEFT:
- * 
+ *
  * 1. We are able to specify the bandwidth between each pair of vms in the
- * bandwidths of Parameters. 
- * 2. Instead of using the average communication cost in HEFT, we also aim to 
+ * bandwidths of Parameters.
+ * 2. Instead of using the average communication cost in HEFT, we also aim to
  * optimize the communication cost
  *
  * @author Weiwei Chen
@@ -45,7 +45,7 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
 
         List<? extends Vm> vmList = getVmList();
         double [][] bandwidths = new double[vmList.size()][vmList.size()];
-        
+
         for(int i = 0; i < vmList.size(); i++){
             for(int j = i ; j < vmList.size(); j++){
                 bandwidths[i][j] = bandwidths [j][i] = Math.min(vmList.get(i).getBw(), vmList.get(j).getBw());
@@ -55,7 +55,7 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
             Vm vm =  (Vm)vmObject;
             vm.getBw();
         }
-        
+
         int vmNum = getVmList().size();
         int taskNum = getTaskList().size();
         double [] availableTime = new double[vmNum];
@@ -63,7 +63,7 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
         double [][] earliestStartTime = new double[taskNum + 1][vmNum];
         double [][] earliestFinishTime = new double[taskNum + 1][vmNum];
         int [] allocation = new int[taskNum + 1];
-        
+
         List<Task> taskList = new ArrayList<Task>(getTaskList());
         List<Task> readyList = new ArrayList<Task>();
         while(!taskList.isEmpty()){
@@ -93,19 +93,19 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
                             for(Iterator fileIter2 = parent.getFileList().iterator();fileIter2.hasNext();){
                                 File file2 = (File)fileIter2.next();
                                 if(file2.getType() == Parameters.FileType.OUTPUT.value && file2.getName().equals(file.getName()))
-                                {
-                                    fileSize += file.getSize();
-                                }
+                                    {
+                                        fileSize += file.getSize();
+                                    }
                             }
                         }
                     }
                     fileSizes[parentIndex] = fileSize;
                     parentIndex ++;
-                }     
-                
+                }
+
                 double minTime = Double.MAX_VALUE;
                 int minTimeIndex = 0;
-                
+
                 for(int vmIndex = 0; vmIndex < getVmList().size(); vmIndex++){
                     Vm vm = (Vm)getVmList().get(vmIndex);
                     double startTime = availableTime[vm.getId()];
@@ -114,7 +114,7 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
                         int allocatedVmId = allocation[parent.getCloudletId()];
                         double actualFinishTime = earliestFinishTime[parent.getCloudletId()][allocatedVmId];
                         double communicationTime = fileSizes[parentIndex] / bandwidths[allocatedVmId][vm.getId()];
-                        
+
                         if(actualFinishTime + communicationTime > startTime){
                             startTime = actualFinishTime + communicationTime;
                         }
@@ -123,19 +123,19 @@ public class DHEFTPlanningAlgorithm extends BasePlanningAlgorithm {
                     earliestStartTime[task.getCloudletId()][vm.getId()] = startTime;
                     double runtime = task.getCloudletLength() / vm.getMips();
                     earliestFinishTime[task.getCloudletId()][vm.getId()] = runtime + startTime;
-                    
+
                     if(runtime + startTime < minTime){
                         minTime = runtime + startTime;
                         minTimeIndex = vmIndex;
                     }
                 }
-                
+
                 allocation[task.getCloudletId()] = minTimeIndex;//we do not really need it use task.getVmId
                 task.setVmId(minTimeIndex);
                 availableTime[minTimeIndex] = minTime;
             }
         }
-        
+
     }
 
 

@@ -37,7 +37,7 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     @Override
     public void run() {
         int vmIndex = 0;
-        
+
         int size = getCloudletList().size();
         Collections.sort(getCloudletList(), new CloudletListComparator());
         List<? extends Vm> vmList = getVmList();
@@ -73,13 +73,13 @@ public class RoundRobinSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             return Integer.compare(v1.getId(), v2.getId());
         }
     }
-    
+
     public class CloudletListComparator implements Comparator<Cloudlet>{
         @Override
-        public int compare(Cloudlet c1, Cloudlet c2){
+            public int compare(Cloudlet c1, Cloudlet c2){
             return Integer.compare(c1.getCloudletId(), c2.getCloudletId());
         }
     }
-    
+
 }
 

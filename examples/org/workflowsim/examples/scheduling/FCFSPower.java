@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator; 
+import java.util.Comparator;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
@@ -162,7 +162,7 @@ public class FCFSPower {
 
     }
 
-    /** 
+    /**
      * Function to set up a data center
      */
     protected static WorkflowDatacenter createDatacenter(String name) {
@@ -182,7 +182,7 @@ public class FCFSPower {
             int ram = 2048; // host memory (MB)
             long storage = 1000000; // host storage
             int bandWidth = 10000;
-            PowerModel powerModel = new PowerModelCubic(1.0, 0.3); 
+            PowerModel powerModel = new PowerModelCubic(1.0, 0.3);
             hostList.add
                 (new PowerHost(i,
                                new RamProvisionerSimple(ram),
@@ -190,7 +190,7 @@ public class FCFSPower {
                                storage,
                                peList,
                                new VmSchedulerTimeShared(peList),
-                               powerModel));            
+                               powerModel));
         }
 
         // Create a DatacenterCharacteristics object that stores the
@@ -200,11 +200,11 @@ public class FCFSPower {
         String vmm = "Xen";
         double time_zone = 10.0;      // time zone this resource located
         double cost = 3.0;              // the cost of using processing in this resource
-        double costPerMem = 0.05;		// the cost of using memory in this resource
-        double costPerStorage = 0.1;	// the cost of using storage in this resource
-        double costPerBw = 0.1;			// the cost of using bw in this resource
+        double costPerMem = 0.05;               // the cost of using memory in this resource
+        double costPerStorage = 0.1;    // the cost of using storage in this resource
+        double costPerBw = 0.1;                 // the cost of using bw in this resource
         WorkflowDatacenter datacenter = null;
-        DatacenterCharacteristics characteristics 
+        DatacenterCharacteristics characteristics
             = new DatacenterCharacteristics
             (arch, os, vmm, hostList, time_zone, cost, costPerMem,
              costPerStorage, costPerBw);
@@ -219,7 +219,7 @@ public class FCFSPower {
         LinkedList<Storage> storageList = new LinkedList<Storage>();
         HarddriveStorage s1 = new HarddriveStorage(name, 1e12);
         s1.setMaxTransferRate(maxTransferRate);
-        storageList.add(s1); 
+        storageList.add(s1);
 
         // ??ds
         VmAllocationPolicy vmAllocationPolicy
@@ -266,7 +266,7 @@ public class FCFSPower {
     }
 
 
-    /** 
+    /**
      * Print the results of the jobs.
      */
     protected static void printJobList(List<Job> list) {
@@ -283,7 +283,7 @@ public class FCFSPower {
 
         // String to format output lines
         String formatString = "%12s%12s%12s%12s%12s%12s%12s%12s%n";
-        
+
         // Header
         Log.printLine();
         Log.printLine("========== OUTPUT ==========");
@@ -301,7 +301,7 @@ public class FCFSPower {
         // Class to format floats to strings
         DecimalFormat dft = new DecimalFormat("###.##");
 
-        
+
         for (Job job : sorted) {
 
             String status = null;

@@ -27,8 +27,8 @@ import org.workflowsim.utils.Parameters.FileType;
 import org.workflowsim.utils.ReplicaCatalog;
 
 /**
- * Data aware algorithm. Schedule a job to a vm that has most input data it requires. 
- * It only works for a local environment. 
+ * Data aware algorithm. Schedule a job to a vm that has most input data it requires.
+ * It only works for a local environment.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -43,7 +43,7 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
     @Override
     public void run() {
 
-        
+
         int size = getCloudletList().size();
 
         for (int i = 0; i < size; i++) {
@@ -56,15 +56,15 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
             for (int j = 0; j < vmSize; j++) {
                 Vm vm = getVmList().get(j);
                 if (vm.getState() == CloudSimTags.VM_STATUS_IDLE) {
-                   
-                    
+
+
                     Job job = (Job)cloudlet;
                     double time = dataTransferTime(job.getFileList(), cloudlet, vm.getId());
                     if(time < minTime){
                         minTime = time;
                         closestVm = vm;
                     }
-                    
+
                 }
             }
 
@@ -72,12 +72,12 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
                 closestVm.setState(CloudSimTags.VM_STATUS_BUSY);
                 cloudlet.setVmId(closestVm.getId());
                 getScheduledList().add(cloudlet);
-            
-            
-            
-            Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "
-                    + cloudlet.getCloudletLength() + " to VM " + closestVm.getId() 
-                    +" with " + closestVm.getCurrentRequestedTotalMips() + " and data is " + minTime);
+
+
+
+                Log.printLine("Schedules " + cloudlet.getCloudletId() + " with "
+                              + cloudlet.getCloudletLength() + " to VM " + closestVm.getId()
+                              +" with " + closestVm.getCurrentRequestedTotalMips() + " and data is " + minTime);
             }
 
 
@@ -85,8 +85,8 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
         }
 
     }
-    
-       /**
+
+    /**
      * If a input file has an output file it does not need stage-in For
      * workflows, we have a rule that a file is written once and read many
      * times, thus if a file is an output file it means it is generated within
@@ -100,18 +100,18 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
      */
     private boolean isRealInputFile(List<File> list, File file) {
         if (file.getType() == FileType.INPUT.value)//input file
-        {
-            for (File another : list) {
-                if (another.getName().equals(file.getName())
+            {
+                for (File another : list) {
+                    if (another.getName().equals(file.getName())
                         /**
                          * if another file is output file
                          */
                         && another.getType() == FileType.OUTPUT.value) {
-                    return false;
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
-        }
         return false;
     }
     /*
@@ -130,11 +130,11 @@ public class DataAwareSchedulingAlgorithm extends BaseSchedulingAlgorithm {
 
             File file = iter.next();
 
-            //The input file is not an output File 
+            //The input file is not an output File
             if (isRealInputFile(requiredFiles, file)) {
                 List siteList = ReplicaCatalog.getStorageList(file.getName());
                 if (siteList.isEmpty()) {
-                    
+
                 }
 
                 boolean hasFile = false;

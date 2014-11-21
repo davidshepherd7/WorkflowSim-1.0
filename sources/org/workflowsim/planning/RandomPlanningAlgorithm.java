@@ -40,29 +40,29 @@ public class RandomPlanningAlgorithm extends BasePlanningAlgorithm {
         for (Iterator it = getTaskList().iterator(); it.hasNext();) {
             Task task = (Task) it.next();
             double duration = task.getCloudletLength() / 1000;
-            
+
             for(int i = 0; i < task.getParentList().size(); i++ ){
                 Task parent = task.getParentList().get(i);
             }
-            
-            
+
+
             for(int i = 0; i < task.getChildList().size(); i++ ){
                 Task child = task.getChildList().get(i);
             }
-            
+
             int vmNum = getVmList().size();
             /**
              * Randomly choose a vm
              */
-            
+
             int vmId = random.nextInt(vmNum);
-            
+
             Vm vm = getVmList().get(vmId);
             //This shows the cpu capability of a vm
             double mips = vm.getMips();
-            
+
             task.setVmId(vm.getId());
-                    
+
             long deadline = Parameters.getDeadline();
 
         }

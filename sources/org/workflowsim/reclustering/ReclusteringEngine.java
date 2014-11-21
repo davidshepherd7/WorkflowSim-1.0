@@ -79,50 +79,50 @@ public class ReclusteringEngine {
      * @param id, job id
      * @return a list of new jobs
      */
-    public static List<Job> process(Job job, int id) {        
+    public static List<Job> process(Job job, int id) {
         List jobList = new ArrayList();
 
         try {
 
             switch (FailureParameters.getFTCluteringAlgorithm()) {
-                case FTCLUSTERING_NOOP:
+            case FTCLUSTERING_NOOP:
 
-                    jobList.add(createJob(id, job, job.getCloudletLength(), job.getTaskList()));
-                    //job submttted doesn't have to be considered
-                    break;
+                jobList.add(createJob(id, job, job.getCloudletLength(), job.getTaskList()));
+                //job submttted doesn't have to be considered
+                break;
                 /**
                  * Dynamic clustering.
                  */
-                case FTCLUSTERING_DC:
-                    jobList = DCReclustering(jobList, job, id, job.getTaskList());
-                    break;
+            case FTCLUSTERING_DC:
+                jobList = DCReclustering(jobList, job, id, job.getTaskList());
+                break;
                 /**
                  * Selective reclustering.
                  */
-                case FTCLUSTERING_SR:
-                    jobList = SRReclustering(jobList, job, id);
+            case FTCLUSTERING_SR:
+                jobList = SRReclustering(jobList, job, id);
 
-                    break;
+                break;
                 /**
                  * Dynamic reclustering.
                  */
-                case FTCLUSTERING_DR:
-                    jobList = DRReclustering(jobList, job, id, job.getTaskList());
-                    break;
+            case FTCLUSTERING_DR:
+                jobList = DRReclustering(jobList, job, id, job.getTaskList());
+                break;
                 /**
                  * Block reclustering.
                  */
-                case FTCLUSTERING_BLOCK:
-                    jobList = BlockReclustering(jobList, job, id);
-                    break;
+            case FTCLUSTERING_BLOCK:
+                jobList = BlockReclustering(jobList, job, id);
+                break;
                 /**
                  * Binary reclustering.
                  */
-                case FTCLUSTERING_VERTICAL:
-                    jobList = VerticalReclustering(jobList, job, id);
-                    break;
-                default:
-                    break;
+            case FTCLUSTERING_VERTICAL:
+                jobList = VerticalReclustering(jobList, job, id);
+                break;
+            default:
+                break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,7 +203,7 @@ public class ReclusteringEngine {
      */
     private static List VerticalReclustering(List jobList, Job job, int id) {
         Map map = getDepthMap(job.getTaskList());
-        
+
         /**
          * If it has just one level
          */
@@ -362,18 +362,18 @@ public class ReclusteringEngine {
     private static int getDividend(int depth) {
         int dividend = 1;
         switch (depth) {
-            case 1:
-                dividend = 78;
-                break;
-            case 2:
-                dividend = 229;
-                break;
-            case 5:
-                dividend = 64;
-                break;
-            default:
-                Log.printLine("Eroor");
-                break;
+        case 1:
+            dividend = 78;
+            break;
+        case 2:
+            dividend = 229;
+            break;
+        case 5:
+            dividend = 64;
+            break;
+        default:
+            Log.printLine("Eroor");
+            break;
         }
         return dividend;
     }
@@ -385,39 +385,39 @@ public class ReclusteringEngine {
      */
     private static double getCumulativeDelay(int depth){
         double delay = 0.0;
-        if(Parameters.getOverheadParams().getQueueDelay()!=null && 
-                Parameters.getOverheadParams().getQueueDelay().containsKey(depth)){
+        if(Parameters.getOverheadParams().getQueueDelay()!=null &&
+           Parameters.getOverheadParams().getQueueDelay().containsKey(depth)){
             delay += Parameters.getOverheadParams().getQueueDelay().get(depth).getMLEMean();
         }
         if(Parameters.getOverheadParams().getWEDDelay()!=null &&
-                Parameters.getOverheadParams().getWEDDelay().containsKey(depth)){
+           Parameters.getOverheadParams().getWEDDelay().containsKey(depth)){
             delay += Parameters.getOverheadParams().getWEDDelay().get(depth).getMLEMean();
         }
         if(Parameters.getOverheadParams().getPostDelay()!=null &&
-                Parameters.getOverheadParams().getPostDelay().containsKey(depth)){
+           Parameters.getOverheadParams().getPostDelay().containsKey(depth)){
             delay += Parameters.getOverheadParams().getPostDelay().get(depth).getMLEMean();
         }
         return delay;
     }
-    
+
     private static double getOverheadLikelihoodPrior(int depth){
         double prior = 0.0;
 
-        if(Parameters.getOverheadParams().getQueueDelay()!=null && 
-                Parameters.getOverheadParams().getQueueDelay().containsKey(depth)){
+        if(Parameters.getOverheadParams().getQueueDelay()!=null &&
+           Parameters.getOverheadParams().getQueueDelay().containsKey(depth)){
             prior = Parameters.getOverheadParams().getQueueDelay().get(depth).getLikelihoodPrior();
         }else
-        if(Parameters.getOverheadParams().getWEDDelay()!=null &&
-                Parameters.getOverheadParams().getWEDDelay().containsKey(depth)){
-            prior = Parameters.getOverheadParams().getWEDDelay().get(depth).getMLEMean();
-        }else
-        if(Parameters.getOverheadParams().getPostDelay()!=null &&
-                Parameters.getOverheadParams().getPostDelay().containsKey(depth)){
-            prior = Parameters.getOverheadParams().getPostDelay().get(depth).getMLEMean();
-        }
+            if(Parameters.getOverheadParams().getWEDDelay()!=null &&
+               Parameters.getOverheadParams().getWEDDelay().containsKey(depth)){
+                prior = Parameters.getOverheadParams().getWEDDelay().get(depth).getMLEMean();
+            }else
+                if(Parameters.getOverheadParams().getPostDelay()!=null &&
+                   Parameters.getOverheadParams().getPostDelay().containsKey(depth)){
+                    prior = Parameters.getOverheadParams().getPostDelay().get(depth).getMLEMean();
+                }
         return prior;
     }
-    
+
     /**
      * Dynamic Reclustering
      *
@@ -429,24 +429,24 @@ public class ReclusteringEngine {
      */
     private static List DRReclustering(List jobList, Job job, int id, List allTaskList) {
         Task firstTask = (Task) allTaskList.get(0);
-      
+
         /**
          * Do not know why it is here. It is hard-coded, right?
          */
         double taskLength = (double) firstTask.getCloudletLength() / 1000 ;//+ Parameters.getOverheadParams().getClustDelay(job) / getDividend(job.getDepth());
-        
+
         //FailureRecord record = new FailureRecord(taskLength, 0, job.getDepth(), allTaskList.size(), 0, 0, job.getUserId());
-        
+
         double phi_ts = getOverheadLikelihoodPrior(job.getDepth());
         double delay = getCumulativeDelay(job.getDepth());
         //record.delayLength = getCumulativeDelay(job.getDepth());
         int suggestedK = 0;//FailureMonitor.getClusteringFactor(record);
-        
+
         double theta = FailureParameters.getGenerator(job.getVmId(), job.getDepth()).getMLEMean();
-        
+
         double phi_gamma = FailureParameters.getGenerator(job.getVmId(), job.getDepth()).getLikelihoodPrior();
-        suggestedK = ClusteringSizeEstimator.estimateK(taskLength, delay, 
-                theta, phi_gamma, phi_ts);
+        suggestedK = ClusteringSizeEstimator.estimateK(taskLength, delay,
+                                                       theta, phi_gamma, phi_ts);
 
         Log.printLine("t=" + taskLength +" d=" + delay + " theta=" + theta + " k=" + suggestedK);
         if (suggestedK == 0) {

@@ -36,7 +36,7 @@ import org.workflowsim.utils.ReplicaCatalog;
 /**
  * This HorizontalClusteringExample2 is using horizontal clustering or more specifically
  * using clusters.num to specify the clustering strength. In contrast to HorizontalClust
- * eringExample2 which uses clusters.size to specify the clustering strength. 
+ * eringExample2 which uses clusters.size to specify the clustering strength.
  *
  * @author Weiwei Chen
  * @since WorkflowSim Toolkit 1.0
@@ -52,8 +52,8 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
     public static void main(String[] args) {
 
 
-       try {
-            // First step: Initialize the WorkflowSim package. 
+        try {
+            // First step: Initialize the WorkflowSim package.
 
             /**
              * However, the exact number of vms may not necessarily be vmNum If
@@ -66,7 +66,7 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
 
 
             /**
-             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID 
+             * Since we are using MINMIN scheduling algorithm, the planning algorithm should be INVALID
              * such that the planner would not override the result of the scheduler
              */
             Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.MINMIN;
@@ -79,7 +79,7 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
              */
             Map<Integer, DistributionGenerator> clusteringDelay = new HashMap();
             /**
-             * Montage has at most 11 horizontal levels 
+             * Montage has at most 11 horizontal levels
              */
             int maxLevel = 11;
             for (int level = 0; level < maxLevel; level++ ){
@@ -88,7 +88,7 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
             }
             // Add clustering delay to the overhead parameters
             OverheadParameters op = new OverheadParameters(0, null, null, null, clusteringDelay, 0);;
-            
+
             /**
              * Horizontal Clustering
              */
@@ -101,14 +101,14 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
              * In this case, we specify the clusters.num = 20, which means we have 20 jobs per level
              */
             ClusteringParameters cp = new ClusteringParameters(20, 0, method, null);
-            
+
 
             /**
              * Initialize static parameters
              */
             Parameters.init(vmNum, daxPath, null,
-                    null, op, cp, sch_method, pln_method,
-                    null, 0);
+                            null, op, cp, sch_method, pln_method,
+                            null, 0);
             ReplicaCatalog.init(file_system);
 
             // before creating any entities.
@@ -131,7 +131,7 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
             WorkflowEngine wfEngine = wfPlanner.getWorkflowEngine();
             /**
              * Create a list of VMs.The userId of a vm is basically the id of the scheduler
-             * that controls this vm. 
+             * that controls this vm.
              */
             List<CondorVM> vmlist0 = createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
@@ -153,11 +153,11 @@ public class HorizontalClusteringExample2 extends HorizontalClusteringExample1{
             CloudSim.stopSimulation();
 
             printJobList(outputList0);
-            
+
 
         } catch (Exception e) {
             Log.printLine("The simulation has been terminated due to an unexpected error");
-throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
