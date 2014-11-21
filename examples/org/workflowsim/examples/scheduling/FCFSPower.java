@@ -3,10 +3,12 @@ package org.workflowsim.examples.scheduling;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator; 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
@@ -76,7 +78,7 @@ public class FCFSPower {
             // resources the exact vmNum would be smaller than that.
             // Take care. ??ds there's no need for this to be in a
             // static object, only used here!
-            int vmNum = 5;
+            int vmNum = 50;
 
             // Initialize static Parameters object
             Parameters.init(vmNum, "config/dax/Montage_100.xml", null,
@@ -117,10 +119,10 @@ public class FCFSPower {
             // Create a WorkflowEngine.
             wfEngine = wfPlanner.getWorkflowEngine();
 
-            // Create a list of VMs.The userId of a vm iss basically the
-            // id of the scheduler that controls this vm.
+            // Create a list of VMs. The userId of a vm is basically the id
+            // of the scheduler that controls this vm.
             List<Vm> vmlist0 =
-                createVM(wfEngine.getSchedulerId(0), Parameters.getVmNum());
+                createVMs(wfEngine.getSchedulerId(0), Parameters.getVmNum());
 
             // Submits this list of vms to this WorkflowEngine.
             wfEngine.submitVmList(vmlist0, 0);
@@ -224,7 +226,7 @@ public class FCFSPower {
     /**
      * Create a list of VMs ready for use
      */
-    protected static List<Vm> createVM(int userId, int vms) {
+    protected static List<Vm> createVMs(int userId, int vms) {
 
         // Set VM Parameters
         long size = 10000; //image size (MB)
@@ -252,35 +254,57 @@ public class FCFSPower {
      * Print the results of the jobs.
      */
     protected static void printJobList(List<Job> list) {
-        int size = list.size();
-        Job job;
 
-        String indent = "    ";
+        // Create sorted copy of list
+        Comparator<Job> comp = new Comparator<Job>() {
+            @Override
+            public int compare(Job o1, Job o2) {
+                return Integer.compare(o1.getCloudletId(), o2.getCloudletId());
+            }
+        };
+        List<Job> sorted = new ArrayList<Job>(list);
+        Collections.sort(sorted, comp);
+
+        // String to format output lines
+        String formatString = "%12s%12s%12s%12s%12s%12s%12s%12s%n";
+        
+        // Header
         Log.printLine();
         Log.printLine("========== OUTPUT ==========");
-        Log.printLine("Cloudlet ID" + indent + "STATUS" + indent
-                      + "Data center ID" + indent + "VM ID" + indent + indent + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
+        Log.format(formatString,
+                   "STATUS",
+                   "Cloudlet ID",
+                   "DC ID" ,
+                   "VM ID",
+                   "CPU Time",
+                   "Start Time",
+                   "Finish Time",
+                   "Depth"
+                   );
 
+        // Class to format floats to strings
         DecimalFormat dft = new DecimalFormat("###.##");
-        for (int i = 0; i < size; i++) {
-            job = list.get(i);
-            Log.print(indent + job.getCloudletId() + indent + indent);
 
+        
+        for (Job job : sorted) {
+
+            String status = null;
             if (job.getCloudletStatus() == Cloudlet.SUCCESS) {
-                Log.print("SUCCESS");
-
-                Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                              + indent + indent + indent + dft.format(job.getActualCPUTime())
-                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                status = "SUCCESS";
             } else if (job.getCloudletStatus() == Cloudlet.FAILED) {
-                Log.print("FAILED");
-
-                Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                              + indent + indent + indent + dft.format(job.getActualCPUTime())
-                              + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
-                              + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
+                status = "FAILED";
             }
+
+            Log.format(formatString,
+                       status,
+                       job.getCloudletId(),
+                       job.getResourceId(),
+                       job.getVmId(),
+                       dft.format(job.getActualCPUTime()),
+                       dft.format(job.getExecStartTime()),
+                       dft.format(job.getFinishTime()),
+                       job.getDepth()
+                       );
         }
 
     }
